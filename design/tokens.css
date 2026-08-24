@@ -52,11 +52,3 @@
   --duration-fast: 120ms;
   --duration-normal: 240ms;
 }
-
-/* Utilidades bÃ¡sicas */
-.bg-base { background: var(--bg); }
-.bg-elevated { background: var(--bg-elevated); }
-.text-base { color: var(--text); }
-.text-muted { color: var(--text-muted); }
-.border-line { border-color: var(--line); }
-.shadow-md { box-shadow: var(--shadow-md); }
