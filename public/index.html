@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#08111f">
   <title>Bubatronik Emergencias</title>
-  <style>
-    :root{color-scheme:dark;--bg:#08111f;--bg-elevated:#0f1b2e;--panel:#101d30;--line:#223550;--text:#e9f1ff;--text-muted:#9eb1cd;--cyan:#57d5ff;--cyan-dim:#57d5ff33;--green:#5ee6a8;--green-dim:#5ee6a81f;--amber:#ffd166;--amber-dim:#ffd1661f;--orange:#ff9f45;--red:#ff6b7a;--red-bright:#ff3b30;--font-sans:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;--radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:18px;--radius-full:9999px;--shadow-sm:0 2px 8px rgba(0,0,0,0.25);--shadow-md:0 6px 20px rgba(0,0,0,0.35);--shadow-lg:0 12px 35px rgba(0,0,0,0.45);--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--space-10:40px;--space-12:48px;--ease-out:cubic-bezier(0.215,0.61,0.355,1);--duration-fast:120ms;--duration-normal:240ms}
-    *{box-sizing:border-box;margin:0;padding:0}body{margin:0;background:radial-gradient(circle at 20% 0,#15375a 0,#08111f 42%);color:var(--text);font:16px var(--font-sans);padding:24px;line-height:1.5}main{max-width:1100px;margin:auto}.eyebrow{color:var(--cyan);letter-spacing:.12em;text-transform:uppercase;font-size:12px}h1{font-size:clamp(28px,5vw,54px);margin:8px 0}.lead{color:var(--text-muted);max-width:680px;margin-bottom:24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:24px}.card{background:rgba(16,29,48,.88);border:1px solid var(--line);border-radius:var(--radius-xl);padding:20px;box-shadow:var(--shadow-md)}.card h2{font-size:17px;margin:0 0 14px;color:var(--cyan)}.metric{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:10px 0}.metric:last-child{border:0}.muted{color:var(--text-muted)}.pill{border-radius:var(--radius-full);padding:4px 10px;font-size:12px;font-weight:700}.active{color:var(--green);background:var(--green-dim)}.watch{color:var(--amber);background:var(--amber-dim)}.event{display:flex;gap:15px;padding:13px 0;border-bottom:1px solid var(--line)}.event:last-child{border:0}.time{color:var(--text-muted);min-width:95px;font-size:13px}.event strong{display:block;margin-bottom:4px}.tag{color:var(--bg);background:var(--cyan);border-radius:5px;padding:2px 6px;font-size:11px;font-weight:800}footer{color:var(--text-muted);font-size:12px;text-align:center;margin:28px 0 8px}.section{margin-top:40px}.section h2{font-size:22px;margin-bottom:12px;color:var(--cyan)}.section p{color:var(--text-muted);max-width:720px}.code{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-md);padding:16px;overflow:auto;font:13px var(--font-mono);color:var(--text)}ul.check{list-style:none;margin-top:12px}ul.check li{padding:6px 0;border-bottom:1px dashed var(--line)}ul.check li:last-child{border:0}a{color:var(--cyan)}.tabs{display:flex;gap:8px;margin-bottom:16px}.tab{background:var(--panel);border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:var(--radius-md);cursor:pointer;font-weight:600}.tab.active{background:var(--cyan);color:var(--bg)}.tab-content{display:none}.tab-content.active{display:block}.preview-frame{width:100%;height:600px;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--bg-elevated)}
-  </style>
 </head>
 <body>
 <main>
@@ -27,55 +23,54 @@
         <h2>Estado operativo</h2>
         <div class="metric"><span class="muted">Eventos activos</span><strong>3</strong></div>
         <div class="metric"><span class="muted">PINGs hoy</span><strong>12</strong></div>
-        <div class="metric"><span class="muted">Ú¡tima recepción</span><strong>18:32</strong></div>
+        <div class="metric"><span class="muted">Última recepción</span><strong>18:32</strong></div>
       </article>
       <article class="card">
         <h2>Proyectos</h2>
-        <div class="metric"><span><a href="https://brm.worldmos.es" target="_blank" rel="noopener">Emergencias</a></span><span class="pill active">Activo</span></div>
         <div class="metric"><span><a href="https://brm.worldmos.world" target="_blank" rel="noopener">BRM World</a></span><span class="pill active">Enlace</span></div>
         <div class="metric"><span><a href="https://brm.worldmos.info" target="_blank" rel="noopener">BRM Info</a></span><span class="pill watch">Enlace</span></div>
       </article>
       <article class="card" style="grid-column:1/-1">
-        <h2>Ú¡ltimos eventos</h2>
+        <h2>Últimos eventos</h2>
         <div class="event">
           <div class="time">24 ago · 18:32</div>
           <div><strong>Lluvia en Sant Salvador <span class="tag">PING</span></strong><span class="muted">Nivel 2 · 18,5 mm/h · Meteocat · activo</span></div>
         </div>
         <div class="event">
           <div class="time">24 ago · 17:45</div>
-          <div><strong>Tormenta en Camp de Tarragona <span class="tag">PING</span></strong><span class="muted">Nivel 3 · evento de demostraciÃ³n</span></div>
+          <div><strong>Tormenta en Camp de Tarragona <span class="tag">PING</span></strong><span class="muted">Nivel 3 · evento de demostración</span></div>
         </div>
       </article>
     </section>
 
     <section class="section">
-      <h2>brm.worldmos.es â€” Despliegue rÃ¡pido</h2>
-      <p>Este archivo ya incluye todo el diseño necesario. Para ponerlo en producciÃ³n:</p>
+      <h2>brm.worldmos.es  Despliegue rápido</h2>
+      <p>Este archivo ya incluye todo el diseño necesario:</p>
       <ul class="check">
-        <li>1) Sube este repo a GitHub (ya estÃ¡ en <code>DEVBU93/bubatronik-emergencias</code>).</li>
-        <li>2) Despliega en Vercel apuntando a <code>public/index.html</code> como pÃ¡gina principal.</li>
+        <li>1) Sube este repo a GitHub (Está en <code>DEVBU93/bubatronik-emergencias</code>).</li>
+        <li>2) Despliega en Vercel apuntando a <code>public/index.html</code> como página principal.</li>
         <li>3) Configura el dominio <code>brm.worldmos.es</code> en Vercel y en GoDaddy (ver <code>docs/DEPLOYMENT.md</code>).</li>
       </ul>
     </section>
 
     <section class="section">
-      <h2>IntegraciÃ³n con API</h2>
+      <h2>Integración con API</h2>
       <p>Para conectar con el endpoint de emergencias:</p>
       <div class="code">POST https://bubatronik-emergencias.vercel.app/api/emergency-event
-Content-Type: application/json
-
-{
-  "event_id": "evt-demo-001",
-  "occurred_at": "2026-08-24T16:32:00Z",
-  "project": "emergencias",
-  "location": { "zone_name": "Sant Salvador", "lat": 41.045, "lon": 1.21 },
-  "phenomenon": "lluvia",
-  "severity": 2,
-  "intensity_mm_h": 18.5,
-  "source": { "name": "Meteocat", "event_id": "meteo-20260824-1832" },
-  "message": "Lluvia detectada en Sant Salvador.",
-  "status": "active"
-}</div>
+        Content-Type: application/json
+        
+        {
+          "event_id": "evt-demo-001",
+          "occurred_at": "2026-08-24T16:32:00Z",
+          "project": "emergencias",
+          "location": { "zone_name": "Sant Salvador", "lat": 41.045, "lon": 1.21 },
+          "phenomenon": "lluvia",
+          "severity": 2,
+          "intensity_mm_h": 18.5,
+          "source": { "name": "Meteocat", "event_id": "meteo-20260824-1832" },
+          "message": "Lluvia detectada en Sant Salvador.",
+          "status": "active"
+        }</div>
     </section>
   </div>
 
