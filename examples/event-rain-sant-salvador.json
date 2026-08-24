@@ -1,0 +1,23 @@
+{
+  "event_id": "evt-sant-salvador-20260824-1832",
+  "occurred_at": "2026-08-24T16:32:00Z",
+  "project": "emergencias",
+  "location": {
+    "zone_name": "Sant Salvador, Camp de Tarragona",
+    "lat": 41.045,
+    "lon": 1.21
+  },
+  "phenomenon": "lluvia",
+  "severity": 2,
+  "intensity_mm_h": 18.5,
+  "source": {
+    "name": "Meteocat",
+    "event_id": "meteo-20260824-1832"
+  },
+  "message": "Lluvia detectada en Sant Salvador.",
+  "delivery": {
+    "channel": "none",
+    "status": "pending"
+  },
+  "status": "active"
+}

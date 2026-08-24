@@ -1,0 +1,13 @@
+{
+  "name": "bubatronik-emergencias",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reusable event foundation for Bubatronik emergency integrations",
+  "scripts": {
+    "test": "node --test src/emergency-event.test.js",
+    "check": "node --check src/emergency-event.js && node --check api/emergency-event.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
