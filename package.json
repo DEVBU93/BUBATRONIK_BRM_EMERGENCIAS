@@ -8,6 +8,6 @@
     "check": "node --check src/emergency-event.js && node --check api/emergency-event.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   }
 }
