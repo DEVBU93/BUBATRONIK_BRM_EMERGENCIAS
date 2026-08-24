@@ -1,22 +1,21 @@
 # Bubatronik Emergencias
 
-Sistema unificado de alertas meteorológicas para WorldMOS, T&O, Fluviaria y futuros proyectos.
+Sistema unificado de alertas meteorolÃ³gicas para WorldMOS, T&O, Fluviaria y futuros proyectos.
 
 ## Estructura
 
 ```
 bubatronik-emergencias/
-├── adapters/          # Telegram, Web Push, Radio Overlay
-├── api/               # Endpoint Vercel (/api/emergency-event)
-├── design/            # Tokens CSS y guía para Lovable
-├── docs/              # Documentación de integración
-├── examples/          # Ejemplos de eventos
-├── public/            # index.html (dashboard + Lovable)
-├── src/               # Núcleo validador de eventos
-└── DEPLOY_GODADDY_GITHUB.md
+â»°â»º adapters/          # Telegram, Web Push, Radio Overlay
+â»°â»º api/               # Endpoint Vercel (/api/emergency-event)
+â»°â»º design/            # Tokens CSS y guÃ¬a para Lovable
+â»°â»º docs/              # DocumentaciÃ³n de integraciÃ³n
+â»°â»º examples/          # Ejemplos de eventos
+â»°â»º public/            # index.html (dashboard + Lovable)
+â»°â»º src/               # NÃºcleo validador de eventos
 ```
 
-## Uso rápido
+## Uso rÃ¡pido
 
 ### 1) Dashboard
 
@@ -53,9 +52,17 @@ const { sendWebPush } = require('./adapters/webpush-adapter');
 const { buildRadioOverlayPayload, sendRadioOverlay } = require('./adapters/radio-overlay-adapter');
 ```
 
+## Proyectos Bubatronik
+
+| Proyecto | Dominio | Repo |
+|----------|---------|------|
+| Emergencias | `brm.worldmos.es` | [bubatronik-emergencias](https://github.com/DEVBU93/bubatronik-emergencias) |
+| BRM World | `brm.worldmos.world` | [BUBATRONIK_BRM_WORLD](https://github.com/DEVBU93/BUBATRONIK_BRM_WORLD) |
+| BRM Info | `brm.worldmos.info` | [BUBATRONIK_BRM_INFO](https://github.com/DEVBU93/BUBATRONIK_BRM_INFO) |
+
 ## Dominio
 
-- Producción: `brm.worldmos.es`
+- ProducciÃ³n: `brm.worldmos.es`
 - Ver `DEPLOY_GODADDY_GITHUB.md` para configurar DNS en GoDaddy.
 
 ## Tests
