@@ -2,104 +2,77 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#08111f">
-  <title>Bubatronik Emergencias</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="BUBATRONIK RADIO · EMERGENCIAS — señal, eventos y PING para el ecosistema WorldMOS.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BRM · BUBATRONIK RADIO · EMERGENCIAS">
+  <meta property="og:description" content="Centro visual de eventos, señales y PING del ecosistema Bubatronik / WorldMOS.">
+  <title>🚨 BRM · BUBATRONIK RADIO · EMERGENCIAS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;600;700&family=Barlow+Condensed:wght@300;400;600;700;800&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0a0a0a;--bg2:#0f0f14;--bg3:#161620;--amber:#f5c518;--amber2:#ffd700;--amber3:#fff3a0;--amber4:#8a6e00;--red:#ef4444;--green:#10b981;--cyan:#57d5ff;--white:#f0ede8;--muted:#777789;--muted2:#3a3a50;--border:#1e1e32;--border2:#2a2a44;--font-mono:'JetBrains Mono','Courier New',monospace;--font-cond:'Barlow Condensed',sans-serif;--font-disp:'Bebas Neue',sans-serif;--font-syne:'Syne',sans-serif;--ticker-h:36px}
+    html{scroll-behavior:smooth;overflow-x:hidden}body{background:var(--bg);color:var(--white);font-family:var(--font-mono);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.45}
+    .scanlines{position:fixed;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.06) 2px,rgba(0,0,0,.06) 3px);pointer-events:none;z-index:9998;mix-blend-mode:overlay}
+    .bg-mesh{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 50% at 5% 10%,rgba(245,197,24,.05),transparent 60%),radial-gradient(ellipse 50% 70% at 95% 90%,rgba(239,68,68,.035),transparent 60%)}
+    .ticker-wrap{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--ticker-h);background:var(--amber);display:flex;align-items:center;overflow:hidden;box-shadow:0 2px 20px rgba(245,197,24,.3)}
+    .ticker-badge{font-family:var(--font-disp);font-size:14px;letter-spacing:2px;color:var(--bg);padding:0 16px;height:100%;display:flex;align-items:center;gap:8px;white-space:nowrap;border-right:2px solid rgba(0,0,0,.15)}
+    .ticker-live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:blink 1.2s step-start infinite}.ticker-overflow{overflow:hidden;flex:1}.ticker-track{display:flex;width:max-content;animation:ticker 70s linear infinite;white-space:nowrap}.ticker-track:hover{animation-play-state:paused}.ticker-track span{font-family:var(--font-cond);font-size:11px;color:var(--bg);padding:0 32px;font-weight:700;letter-spacing:1.5px}@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.2}}
+    .page{position:relative;z-index:1;padding-top:var(--ticker-h);max-width:1400px;margin:auto}
+    .station-header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 36px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(15,15,20,.98),rgba(10,10,10,.88));backdrop-filter:blur(12px);position:sticky;top:var(--ticker-h);z-index:100}
+    .header-left{display:flex;flex-direction:column;gap:3px}.station-logo{font-family:var(--font-disp);font-size:clamp(28px,4vw,52px);letter-spacing:4px;line-height:1;background:linear-gradient(135deg,var(--amber),var(--amber2) 60%,var(--amber3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}.header-badge{display:inline-block;font-family:var(--font-cond);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 11px;border-radius:3px;width:max-content;background:rgba(245,197,24,.08);border:1px solid var(--amber4);color:var(--amber)}.header-tagline{font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+    .header-center{text-align:center}.signal{font-family:var(--font-disp);font-size:42px;line-height:.8;color:var(--amber);letter-spacing:3px}.signal-sub{font:10px var(--font-cond);letter-spacing:3px;color:var(--muted);text-transform:uppercase}.header-right{text-align:right;font-size:10px;color:var(--muted);line-height:1.8}.status{display:inline-flex;align-items:center;gap:7px;color:var(--green);font-weight:700}.status-dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 10px rgba(16,185,129,.7);animation:blink 1.5s infinite}
+    main{padding:42px 36px 56px}.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(300px,.6fr);gap:28px;padding:38px 0 32px;border-bottom:1px solid var(--border)}.eyebrow{color:var(--amber);font:700 11px var(--font-cond);letter-spacing:4px;text-transform:uppercase}.hero h1{font:clamp(48px,7vw,92px)/.82 var(--font-disp);letter-spacing:2px;margin:12px 0 20px}.hero h1 span{color:var(--amber)}.lead{max-width:760px;color:#aaaabd;font:400 17px/1.55 var(--font-cond)}.hero-panel{border:1px solid var(--border2);background:linear-gradient(135deg,rgba(245,197,24,.06),rgba(255,255,255,.015));padding:22px;align-self:end}.hero-panel-label{color:var(--muted);font-size:9px;letter-spacing:2px;text-transform:uppercase}.hero-panel strong{display:block;font:42px var(--font-disp);color:var(--amber);margin:4px 0}.hero-panel small{color:var(--muted);font-size:10px}
+    .tabs{display:flex;gap:8px;margin:28px 0 18px}.tab{border:1px solid var(--border2);background:var(--bg2);color:var(--muted);font:700 11px var(--font-cond);letter-spacing:2px;text-transform:uppercase;padding:10px 16px;cursor:pointer}.tab:hover,.tab.active{background:var(--amber);border-color:var(--amber);color:var(--bg)}.tab-content{display:none}.tab-content.active{display:block}
+    .section-title{display:flex;justify-content:space-between;align-items:end;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:16px}.section-title h2{font:32px var(--font-disp);letter-spacing:1px}.section-title span{font-size:9px;color:var(--muted);letter-spacing:2px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:linear-gradient(145deg,rgba(22,22,32,.96),rgba(15,15,20,.96));border:1px solid var(--border);padding:20px;box-shadow:0 12px 35px rgba(0,0,0,.3)}.card:hover{border-color:#4a4a64}.card h3{font:22px var(--font-disp);letter-spacing:1px;color:var(--amber);margin-bottom:14px}.metric{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding:11px 0;font-size:11px}.metric:last-child{border:0}.muted{color:var(--muted)}.value{font:26px var(--font-disp);color:var(--white)}.pill{padding:4px 9px;font:700 9px var(--font-cond);letter-spacing:1px;text-transform:uppercase}.pill.active{color:var(--green);background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3)}.pill.watch{color:var(--amber);background:rgba(245,197,24,.07);border:1px solid rgba(245,197,24,.25)}
+    .events{margin-top:14px}.event{display:grid;grid-template-columns:110px 1fr auto;gap:18px;align-items:center;padding:16px 4px;border-bottom:1px solid var(--border)}.event:last-child{border:0}.time{color:var(--muted);font-size:10px}.event strong{display:block;font:19px var(--font-cond);font-weight:700;margin-bottom:4px}.event .muted{font-size:10px}.tag{display:inline-block;color:var(--bg);background:var(--amber);padding:2px 7px;margin-left:6px;font:800 9px var(--font-mono);vertical-align:middle}.severity{font:22px var(--font-disp);color:var(--red)}
+    .architecture{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.node{border:1px solid var(--border2);padding:18px 14px;background:var(--bg2);position:relative}.node::after{content:'→';position:absolute;right:-11px;top:50%;color:var(--amber);z-index:2}.node:last-child::after{display:none}.node b{display:block;font:20px var(--font-disp);color:var(--amber);letter-spacing:1px}.node span{font-size:9px;color:var(--muted);line-height:1.5}
+    .integration{margin-top:30px}.code{background:#050507;border:1px solid var(--border);padding:18px;overflow:auto;color:#c8c8d4;font:11px/1.7 var(--font-mono);white-space:pre}.code .accent{color:var(--amber)}.link-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.link-card{display:block;text-decoration:none;color:var(--white);border:1px solid var(--border);padding:16px;background:var(--bg2)}.link-card:hover{border-color:var(--amber);transform:translateY(-1px)}.link-card b{font:20px var(--font-disp);color:var(--amber)}.link-card span{display:block;color:var(--muted);font-size:9px;margin-top:4px}
+    .notice{margin-top:30px;border-left:3px solid var(--red);padding:14px 18px;background:rgba(239,68,68,.045);color:#bdbdc8;font:12px/1.6 var(--font-cond)}.notice strong{color:var(--red)}footer{border-top:1px solid var(--border);padding:24px 36px;color:var(--muted);font-size:9px;letter-spacing:1px;text-align:center}
+    .preview-frame{width:100%;min-height:680px;border:1px solid var(--border2);background:#050507;margin-top:10px}
+    @media(max-width:900px){.station-header{grid-template-columns:1fr auto;padding:18px}.header-center{display:none}.hero{grid-template-columns:1fr}.grid,.architecture,.link-grid{grid-template-columns:1fr 1fr}.event{grid-template-columns:85px 1fr}.event .severity{display:none}main{padding:28px 18px 45px}}
+    @media(max-width:560px){.ticker-badge{padding:0 10px}.ticker-track span{padding:0 18px}.station-header{position:relative;top:0}.page{padding-top:var(--ticker-h)}.grid,.architecture,.link-grid{grid-template-columns:1fr}.hero h1{font-size:58px}.hero{padding-top:25px}.event{grid-template-columns:1fr;gap:6px}.tabs{overflow:auto}.tab{white-space:nowrap}main{padding-inline:14px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  </style>
 </head>
 <body>
+<div class="scanlines"></div><div class="bg-mesh"></div>
+<div class="ticker-wrap"><div class="ticker-badge"><span class="ticker-live-dot"></span>BRM · EMERGENCIAS</div><div class="ticker-overflow"><div class="ticker-track"><span>⚠ SEÑAL OPERATIVA · PING ACTIVO · CAMP DE TARRAGONA</span><span>METEOCAT · EVENTOS TRAZABLES · WORLD-MUNDO OS</span><span>RADIO · ALERTA · INFORMACIÓN · COMUNIDAD</span><span>⚠ SEÑAL OPERATIVA · PING ACTIVO · CAMP DE TARRAGONA</span><span>METEOCAT · EVENTOS TRAZABLES · WORLD-MUNDO OS</span></div></div></div>
+<div class="page">
+<header class="station-header"><div class="header-left"><div class="station-logo">BUBATRONIK RADIO</div><div class="header-badge">EMERGENCIAS · BRM</div><div class="header-tagline">Sant Salvador · Tarragona · WorldMOS</div></div><div class="header-center"><div class="signal">PING</div><div class="signal-sub">señal + contexto + acción</div></div><div class="header-right"><div class="status"><span class="status-dot"></span>SISTEMA ONLINE</div><br>EVENT BUS · READY<br>API · READY</div></header>
 <main>
-  <div class="eyebrow">Bubatronik · Emergencias</div>
-  <h1>Alarma + señal + PING</h1>
-  <p class="lead">Una vista común para que WorldMOS, T&O, Fluviaria y futuros proyectos compartan eventos claros, trazables y preparados para integración.</p>
+<section class="hero"><div><div class="eyebrow">BUBATRONIK · EMERGENCY SIGNAL SYSTEM</div><h1>ALARMA <span>+</span><br>SEÑAL <span>+</span><br>PING</h1><p class="lead">Centro visual para detectar, ordenar y transmitir eventos relevantes del entorno. Diseñado para que Bubatronik, WorldMOS, T&amp;O, Fluviaria y futuros módulos puedan compartir una misma lógica de señal.</p></div><div class="hero-panel"><div class="hero-panel-label">Último pulso registrado</div><strong>18,5 mm/h</strong><small>LLUVIA · SANT SALVADOR · 24 AGO 2026 · NIVEL 2</small></div></section>
+<div class="tabs"><button class="tab active" data-tab="dashboard">Dashboard</button><button class="tab" data-tab="lovable">Lovable</button><button class="tab" data-tab="integration">Arquitectura</button></div>
+<div id="dashboard" class="tab-content active">
+<section><div class="section-title"><h2>ESTADO OPERATIVO</h2><span>LIVE · DEMO DATA</span></div><div class="grid"><article class="card"><h3>Señal</h3><div class="metric"><span class="muted">Eventos activos</span><span class="value">03</span></div><div class="metric"><span class="muted">PINGs hoy</span><span class="value">12</span></div><div class="metric"><span class="muted">Última recepción</span><span>18:32</span></div></article><article class="card"><h3>Ecosistema</h3><div class="metric"><span>Emergencias</span><span class="pill active">Activo</span></div><div class="metric"><span>T&amp;O</span><span class="pill active">Preparado</span></div><div class="metric"><span>Fluviaria</span><span class="pill watch">En pruebas</span></div></article><article class="card"><h3>Canales</h3><div class="metric"><span>API / Event Bus</span><span class="pill active">Online</span></div><div class="metric"><span>Radio Overlay</span><span class="pill active">Ready</span></div><div class="metric"><span>Web Push</span><span class="pill watch">Configurable</span></div></article></div></section>
+<section style="margin-top:34px"><div class="section-title"><h2>ÚLTIMOS EVENTOS</h2><span>TRAZABILIDAD · PING</span></div><div class="events card"><div class="event"><div class="time">24 AGO · 18:32</div><div><strong>Lluvia en Sant Salvador <span class="tag">PING</span></strong><span class="muted">Nivel 2 · 18,5 mm/h · Meteocat · activo</span></div><div class="severity">N2</div></div><div class="event"><div class="time">24 AGO · 17:45</div><div><strong>Tormenta en Camp de Tarragona <span class="tag">PING</span></strong><span class="muted">Nivel 3 · evento de demostración · activo</span></div><div class="severity">N3</div></div><div class="event"><div class="time">24 AGO · 16:20</div><div><strong>Prealerta meteorológica <span class="tag">INFO</span></strong><span class="muted">Camp de Tarragona · señal de contexto</span></div><div class="severity">N1</div></div></div></section>
+<section class="integration"><div class="section-title"><h2>RED BRM · WORLDMOS</h2><span>ENTRADAS / SALIDAS</span></div><div class="link-grid"><a class="link-card" href="https://brm.worldmos.info" target="_blank" rel="noopener"><b>BRM INFO</b><span>Información · programas · comunidad →</span></a><a class="link-card" href="https://brm.worldmos.world" target="_blank" rel="noopener"><b>BRM WORLD</b><span>Presencia global · ecosistema →</span></a><a class="link-card" href="https://w-mos.vercel.app" target="_blank" rel="noopener"><b>WORLD-MUNDO OS</b><span>Hub central del sistema →</span></a></div></section>
+</div>
+<div id="lovable" class="tab-content"><section><div class="section-title"><h2>LOVABLE · PREVIEW</h2><span>CAPA VISUAL / PROTOTIPO</span></div><p class="muted" style="font-size:11px;margin-bottom:10px">La versión creada con Lovable se conserva como referencia/prototipo, mientras este dashboard aporta una capa propia de identidad BRM y conexión con el sistema.</p><iframe class="preview-frame" src="https://ping-tarragona-ready.lovable.app" title="Lovable preview" loading="lazy"></iframe></section></div>
+<div id="integration" class="tab-content"><section><div class="section-title"><h2>ARQUITECTURA</h2><span>MODULAR · EVENT-DRIVEN</span></div><div class="architecture"><div class="node"><b>FUENTES</b><span>Meteocat · sensores · entradas manuales · integraciones</span></div><div class="node"><b>EVENT BUS</b><span>Validación · normalización · trazabilidad · estado</span></div><div class="node"><b>PING</b><span>Dashboard · radio overlay · Web Push · Telegram</span></div><div class="node"><b>WORLD-MOS</b><span>Contexto · módulos · conocimiento · expansión</span></div></div><div class="code" style="margin-top:18px"><span class="accent">POST</span> /api/emergency-event
+Content-Type: application/json
 
-  <div class="tabs">
-    <button class="tab active" data-tab="dashboard">Dashboard</button>
-    <button class="tab" data-tab="lovable">Lovable</button>
-  </div>
-
-  <div id="dashboard" class="tab-content active">
-    <section class="grid">
-      <article class="card">
-        <h2>Estado operativo</h2>
-        <div class="metric"><span class="muted">Eventos activos</span><strong>3</strong></div>
-        <div class="metric"><span class="muted">PINGs hoy</span><strong>12</strong></div>
-        <div class="metric"><span class="muted">Última recepción</span><strong>18:32</strong></div>
-      </article>
-      <article class="card">
-        <h2>Proyectos</h2>
-        <div class="metric"><span><a href="https://brm.worldmos.world" target="_blank" rel="noopener">BRM World</a></span><span class="pill active">Enlace</span></div>
-        <div class="metric"><span><a href="https://brm.worldmos.info" target="_blank" rel="noopener">BRM Info</a></span><span class="pill watch">Enlace</span></div>
-      </article>
-      <article class="card" style="grid-column:1/-1">
-        <h2>Últimos eventos</h2>
-        <div class="event">
-          <div class="time">24 ago · 18:32</div>
-          <div><strong>Lluvia en Sant Salvador <span class="tag">PING</span></strong><span class="muted">Nivel 2 · 18,5 mm/h · Meteocat · activo</span></div>
-        </div>
-        <div class="event">
-          <div class="time">24 ago · 17:45</div>
-          <div><strong>Tormenta en Camp de Tarragona <span class="tag">PING</span></strong><span class="muted">Nivel 3 · evento de demostración</span></div>
-        </div>
-      </article>
-    </section>
-
-    <section class="section">
-      <h2>brm.worldmos.es  Despliegue rápido</h2>
-      <p>Este archivo ya incluye todo el diseño necesario:</p>
-      <ul class="check">
-        <li>1) Sube este repo a GitHub (Está en <code>DEVBU93/bubatronik-emergencias</code>).</li>
-        <li>2) Despliega en Vercel apuntando a <code>public/index.html</code> como página principal.</li>
-        <li>3) Configura el dominio <code>brm.worldmos.es</code> en Vercel y en GoDaddy (ver <code>docs/DEPLOYMENT.md</code>).</li>
-      </ul>
-    </section>
-
-    <section class="section">
-      <h2>Integración con API</h2>
-      <p>Para conectar con el endpoint de emergencias:</p>
-      <div class="code">POST https://bubatronik-emergencias.vercel.app/api/emergency-event
-        Content-Type: application/json
-        
-        {
-          "event_id": "evt-demo-001",
-          "occurred_at": "2026-08-24T16:32:00Z",
-          "project": "emergencias",
-          "location": { "zone_name": "Sant Salvador", "lat": 41.045, "lon": 1.21 },
-          "phenomenon": "lluvia",
-          "severity": 2,
-          "intensity_mm_h": 18.5,
-          "source": { "name": "Meteocat", "event_id": "meteo-20260824-1832" },
-          "message": "Lluvia detectada en Sant Salvador.",
-          "status": "active"
-        }</div>
-    </section>
-  </div>
-
-  <div id="lovable" class="tab-content">
-    <section class="section">
-      <h2>Vista de Lovable</h2>
-      <p class="muted">Preview embebido de la web creada en Lovable para brm.worldmos.es</p>
-      <iframe class="preview-frame" src="https://ping-tarragona-ready.lovable.app" title="Lovable preview"></iframe>
-    </section>
-  </div>
-
-  <footer>Demo visual · No sustituye avisos oficiales de emergencias · brm.worldmos.es</footer>
-</main>
-
+{
+  "event_id": "evt-demo-001",
+  "project": "emergencias",
+  "location": { "zone_name": "Sant Salvador", "lat": 41.045, "lon": 1.21 },
+  "phenomenon": "lluvia",
+  "severity": 2,
+  "intensity_mm_h": 18.5,
+  "source": { "name": "Meteocat" },
+  "status": "active"
+}</div></section></div>
+<div class="notice"><strong>AVISO DE USO:</strong> esta interfaz es una capa de visualización y coordinación experimental. No sustituye los avisos oficiales de emergencias, Protección Civil, Meteocat ni otros organismos competentes.</div>
+</main><footer>BRM · BUBATRONIK RADIO · EMERGENCIAS · WORLD-MUNDO OS · DEMO / SISTEMA EN EVOLUCIÓN</footer></div>
 <script>
-  const tabs = document.querySelectorAll('.tab');
-  const contents = {
-    dashboard: document.getElementById('dashboard'),
-    lovable: document.getElementById('lovable')
-  };
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      Object.values(contents).forEach(c => c.classList.remove('active'));
-      tab.classList.add('active');
-      const target = tab.dataset.tab;
-      contents[target].classList.add('active');
-    });
-  });
+const tabs=document.querySelectorAll('.tab');const contents={dashboard:document.getElementById('dashboard'),lovable:document.getElementById('lovable'),integration:document.getElementById('integration')};tabs.forEach(tab=>tab.addEventListener('click',()=>{tabs.forEach(t=>t.classList.remove('active'));Object.values(contents).forEach(c=>c.classList.remove('active'));tab.classList.add('active');contents[tab.dataset.tab].classList.add('active');}));
 </script>
-</body>
-</html>
+</body></html>
