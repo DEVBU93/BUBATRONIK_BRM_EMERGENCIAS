@@ -1,0 +1,20 @@
+{
+  "event_id": "evt-20260824-183200-santsalvador",
+  "timestamp": "2026-08-24T18:32:00+02:00",
+  "location": {
+    "lat": 41.045,
+    "lon": 1.21,
+    "zone_name": "Sant Salvador, Camp de Tarragona"
+  },
+  "alert_level": 2,
+  "phenomenon": "lluvia",
+  "intensity_mm_h": 18.5,
+  "source": "Meteocat",
+  "message": "PING: Lluvia detectada ahora en Sant Salvador (18.5 mm/h). Riesgo bajo-moderado.",
+  "push": {
+    "sent": true,
+    "channel": "web_push",
+    "sent_at": "2026-08-24T18:32:05+02:00"
+  },
+  "status": "activo"
+}
