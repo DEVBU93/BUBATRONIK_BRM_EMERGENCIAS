@@ -1,0 +1,62 @@
+:root {
+  /* Colores base */
+  --bg: #08111f;
+  --bg-elevated: #0f1b2e;
+  --panel: #101d30;
+  --line: #223550;
+
+  /* Texto */
+  --text: #e9f1ff;
+  --text-muted: #9eb1cd;
+
+  /* Acentos */
+  --cyan: #57d5ff;
+  --cyan-dim: #57d5ff33;
+  --green: #5ee6a8;
+  --green-dim: #5ee6a81f;
+  --amber: #ffd166;
+  --amber-dim: #ffd1661f;
+  --orange: #ff9f45;
+  --red: #ff6b7a;
+  --red-bright: #ff3b30;
+
+  /* TipografÃ¬a */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Radios */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 35px rgba(0, 0, 0, 0.45);
+
+  /* Espaciados */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Transiciones */
+  --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --duration-fast: 120ms;
+  --duration-normal: 240ms;
+}
+
+/* Utilidades bÃ¡sicas */
+.bg-base { background: var(--bg); }
+.bg-elevated { background: var(--bg-elevated); }
+.text-base { color: var(--text); }
+.text-muted { color: var(--text-muted); }
+.border-line { border-color: var(--line); }
+.shadow-md { box-shadow: var(--shadow-md); }
