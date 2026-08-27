@@ -2,10 +2,19 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/brm-home-v2.html"
+      "destination": "/index.html"
     }
   ],
   "headers": [
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, must-revalidate"
+        }
+      ]
+    },
     {
       "source": "/world-incident-center.html",
       "headers": [
@@ -16,7 +25,7 @@
       ]
     },
     {
-      "source": "/brm-home-v2.html",
+      "source": "/espana.html",
       "headers": [
         {
           "key": "Cache-Control",
