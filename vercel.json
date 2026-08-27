@@ -3,11 +3,24 @@
     {
       "source": "/",
       "destination": "/index.html"
+    },
+    {
+      "source": "/ayuda",
+      "destination": "/ayuda.html"
     }
   ],
   "headers": [
     {
       "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/ayuda.html",
       "headers": [
         {
           "key": "Cache-Control",
