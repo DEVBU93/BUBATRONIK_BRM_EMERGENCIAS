@@ -43,7 +43,7 @@ function validateAndNormalize(input, { now = new Date() } = {}) {
   if (!isObject(input)) throw new Error('event must be an object');
 
   const eventId = asTrimmedString(input.event_id, 'event_id', { max: 120 });
-  const project = asTrimmedString(input.project, 'project', { max = 40 });
+  const project = asTrimmedString(input.project, 'project', { max: 40 });
   if (!PROJECTS.has(project)) throw new Error(`project must be one of: ${[...PROJECTS].join(', ')}`);
 
   const location = input.location;
@@ -52,21 +52,23 @@ function validateAndNormalize(input, { now = new Date() } = {}) {
   const lat = numberInRange(location.lat, 'location.lat', -90, 90);
   const lon = numberInRange(location.lon, 'location.lon', -180, 180);
 
-  const phenomenon = asTrimmedString(input.phenomenon, 'phenomenon', { max = 30 });
+  const phenomenon = asTrimmedString(input.phenomenon, 'phenomenon', { max: 30 });
   if (!PHENOMENA.has(phenomenon)) throw new Error(`phenomenon must be one of: ${[...PHENOMENA].join(', ')}`);
 
   const severity = numberInRange(input.severity, 'severity', 0, 5);
   if (!Number.isInteger(severity)) throw new Error('severity must be an integer');
   const occurredAt = isoDate(input.occurred_at, 'occurred_at');
-  const status = input.status || 'active';
+
+  const status = (typeof input.status === 'string' && input.status) ? input.status : 'active';
   if (!STATUSES.has(status)) throw new Error(`status must be one of: ${[...STATUSES].join(', ')}`);
 
   const source = isObject(input.source) ? input.source : {};
-  const sourceName = asTrimmedString(source.name, 'source.name', { max = 80 });
+  const sourceName = asTrimmedString(source.name, 'source.name', { max: 80 });
   const sourceEventId = asTrimmedString(source.event_id, 'source.event_id', { required: false, max: 120 });
   const message = asTrimmedString(input.message, 'message', { max: 500 });
   const intensity = input.intensity_mm_h === undefined ? undefined : numberInRange(input.intensity_mm_h, 'intensity_mm_h', 0, 1000);
-  const dedupeKey = asTrimmedString(input.dedupe_key || `${project}:${phenomenon}:${zoneName}:${sourceEventId || occurredAt}`, 'dedupe_key', { max: 240 });
+  const dedupeKeyRaw = input.dedupe_key || `${project}:${phenomenon}:${zoneName}:${sourceEventId || occurredAt}`;
+  const dedupeKey = asTrimmedString(dedupeKeyRaw, 'dedupe_key', { max: 240 });
 
   return {
     schema_version: '1.0.0',
@@ -89,11 +91,35 @@ function validateAndNormalize(input, { now = new Date() } = {}) {
   };
 }
 
-function createMemoryDeduper() {
-  const seen = new Set();
+function createMemoryDeduper(ttlSeconds = 3600) {
+  // Simple in-memory deduper with TTL. Not durable across process restarts.
+  const map = new Map(); // key -> expiresAt (ms)
+
+  function cleanup() {
+    const now = Date.now();
+    for (const [k, v] of map.entries()) {
+      if (v <= now) map.delete(k);
+    }
+  }
+
   return {
-    has(key) { return seen.has(key); },
-    add(key) { seen.add(key); }
+    has(key) {
+      if (!key) return false;
+      const exp = map.get(key);
+      if (!exp) return false;
+      if (exp <= Date.now()) { map.delete(key); return false; }
+      return true;
+    },
+    add(key) {
+      if (!key) return;
+      const exp = Date.now() + ttlSeconds * 1000;
+      map.set(key, exp);
+      // schedule a lazy cleanup
+      setTimeout(cleanup, ttlSeconds * 1000 + 1000);
+    },
+    // helpers for testing/inspection
+    _size() { cleanup(); return map.size; },
+    _clear() { map.clear(); }
   };
 }
 
