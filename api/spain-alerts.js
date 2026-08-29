@@ -1,12 +1,11 @@
 export default async function handler(req, res) {
-  const feedUrl = 'https://feeds.meteoalarm.org/feeds/meteoalarm-legacy-atom-spain';
+  const feeds = ['https://feeds.meteoalarm.org/feeds/meteoalarm-legacy-atom-spain'];
   try {
-    const response = await fetch(feedUrl, {
-      headers: { Accept: 'application/atom+xml, application/xml, text/xml' }
-    });
-    if (!response.ok) throw new Error(`MeteoAlarm ${response.status}`);
-
-    const xml = await response.text();
+    let xml=''; let lastError=null;
+    for (const feedUrl of feeds) {
+      try { const response = await fetch(feedUrl,{headers:{Accept:'application/atom+xml, application/xml, text/xml'}}); if(!response.ok) throw new Error(`MeteoAlarm ${response.status}`); xml=await response.text(); if(xml) break; } catch(e){ lastError=e; }
+    }
+    if(!xml) throw (lastError||new Error('No Spain alert feed available'));
     const entries = [...xml.matchAll(/<entry\b[\s\S]*?<\/entry>/gi)].map(m => m[0]);
     const clean = value => (value || '')
       .replace(/<!\[CDATA\[|\]\]>/g, '')
@@ -66,6 +65,7 @@ export default async function handler(req, res) {
         urgency,
         time: published || null,
         source: 'METEOALARM-ES',
+        scope: 'spain',
         kind: 'official',
         url: link(block),
         detail: clean(summary).slice(0, 600)
