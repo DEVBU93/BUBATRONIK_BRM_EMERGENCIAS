@@ -8,6 +8,10 @@ const NATIONAL = [
   {id:'puertos',name:'Puertos del Estado',scope:'España',type:'marítimo',url:'https://www.puertos.es/'},
   {id:'salvamento',name:'Salvamento Marítimo',scope:'España',type:'marítimo',url:'https://www.salvamentomaritimo.es/'},
   {id:'ree',name:'Red Eléctrica',scope:'España',type:'energía',url:'https://www.ree.es/'},
+  {id:'meteoalarm-eu',name:'MeteoAlarm Europe',scope:'Europa',type:'avisos meteorológicos',url:'https://www.meteoalarm.org/'},
+  {id:'copernicus-ems',name:'Copernicus EMS',scope:'Europa',type:'emergencias y cartografía',url:'https://emergency.copernicus.eu/'},
+  {id:'effis-data',name:'EFFIS',scope:'Europa',type:'incendios forestales',url:'https://forest-fire.emergency.copernicus.eu/applications/data-and-services'},
+  {id:'efas',name:'EFAS / Copernicus',scope:'Europa',type:'inundaciones',url:'https://www.copernicus.eu/en/access-data/copernicus-services-catalogue/european-flood-awareness-system'},
   {id:'usgs',name:'USGS',scope:'global',type:'terremotos',url:'https://earthquake.usgs.gov/earthquakes/feed/'},
   {id:'gdacs',name:'GDACS',scope:'global',type:'multiamenaza',url:'https://www.gdacs.org/'},
   {id:'effis',name:'EFFIS / Copernicus',scope:'Europa',type:'incendios',url:'https://forest-fire.emergency.copernicus.eu/'}
