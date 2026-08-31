@@ -1,21 +1,44 @@
+// BRM EUROPE alert adapter — official MeteoAlarm Atom feed.
 export default async function handler(req,res){
-  const feedUrl='https://feeds.meteoalarm.org/feeds/meteoalarm-legacy-atom-europe';
-  try{
-    const r=await fetch(feedUrl,{headers:{Accept:'application/atom+xml, application/xml, text/xml'}});
-    if(!r.ok) throw new Error('MeteoAlarm '+r.status);
-    const xml=await r.text();
-    const clean=v=>(v||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
-    const tag=(b,n)=>clean(b.match(new RegExp('<(?:(?:[\\w.-]+):)?'+n+'\\b[^>]*>([\\s\\S]*?)<\\/(?:(?:[\\w.-]+):)?'+n+'>','i'))?.[1]);
-    const coords=b=>{
-      const read=n=>b.match(new RegExp('<(?:(?:[\\w.-]+):)?'+n+'\\b[^>]*>([^<]+)<\\/','i'))?.[1]?.trim();
-      const point=read('point')||read('pos'), box=read('box'), polygon=read('polygon');
-      const nums=v=>(v||'').split(/\\s+/).map(Number).filter(Number.isFinite);
-      let n=nums(point); if(n.length>=2)return{lat:n[0],lon:n[1]};
-      n=nums(box); if(n.length>=4)return{lat:(n[0]+n[2])/2,lon:(n[1]+n[3])/2};
-      n=nums(polygon); if(n.length>=4){let lat=0,lon=0,c=0;for(let i=0;i+1<n.length;i+=2){lat+=n[i];lon+=n[i+1];c++}return{lat:lat/c,lon:lon/c}}
-      return{lat:null,lon:null};
-    };
-    const events=[...xml.matchAll(/<entry\b[\s\S]*?<\/entry>/gi)].map((m,i)=>{const b=m[0],c=coords(b),title=tag(b,'title')||'Aviso meteorológico europeo',area=tag(b,'areaDesc')||tag(b,'featureName')||tag(b,'area')||'';return{id:'meteoalarm-eu-'+Buffer.from((tag(b,'id')||title+'|'+area+'|'+(tag(b,'updated')||'')).toString()).toString('base64').replace(/[^a-z0-9]/gi,'').slice(0,32),name:title,type:'weather',lat:c.lat,lon:c.lon,area,event:tag(b,'event')||title,severity:tag(b,'severity')||'',urgency:tag(b,'urgency')||'',time:tag(b,'updated')||tag(b,'published')||null,source:'METEOALARM-EU',kind:'official',scope:'europe',url:b.match(/<link\\b[^>]*href=[\"']([^\"']+)/i)?.[1]||'https://www.meteoalarm.org/',detail:clean(tag(b,'summary')||tag(b,'content')).slice(0,600)}}).filter(e=>e.name);
-    res.setHeader('Cache-Control','s-maxage=180, stale-while-revalidate=600');res.status(200).json({source:'METEOALARM-EU',generated:Date.now(),count:events.length,events});
-  }catch(e){res.setHeader('Cache-Control','s-maxage=30');res.status(502).json({source:'METEOALARM-EU',error:'European alert feed temporarily unavailable',events:[]});}
+ const feedUrl="https://feeds.meteoalarm.org/feeds/meteoalarm-legacy-atom-europe";
+ const clean=v=>decode(String(v||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim());
+ const decode=s=>s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&');
+ const field=(block,name)=>{
+   const re=new RegExp('<(?:[\\w.-]+:)?'+name+'\\b[^>]*>([\\s\\S]*?)<\\/(?:[\\w.-]+:)?'+name+'>','i');
+   return clean(block.match(re)?.[1]);
+ };
+ const geometry=block=>{
+   const read=names=>{
+     for(const n of names){const v=block.match(new RegExp('<(?:[\\w.-]+:)?'+n+'\\b[^>]*>([^<]+)<\\/(?:[\\w.-]+:)?'+n+'>','i'))?.[1];if(v)return decode(v).trim()}
+     return '';
+   };
+   const pairs=read(['point','pos']).trim().split(/\s+/).map(Number).filter(Number.isFinite);
+   if(pairs.length>=2)return{lat:pairs[0],lon:pairs[1]};
+   const box=read(['box']).split(/\s+/).map(Number).filter(Number.isFinite);
+   if(box.length>=4)return{lat:(box[0]+box[2])/2,lon:(box[1]+box[3])/2};
+   const poly=read(['polygon']).split(/\s+/).map(Number).filter(Number.isFinite);
+   if(poly.length>=4){let lat=0,lon=0,n=0;for(let i=0;i+1<poly.length;i+=2){lat+=poly[i];lon+=poly[i+1];n++}return n?{lat:lat/n,lon:lon/n}:{lat:null,lon:null}}
+   return{lat:null,lon:null};
+ };
+ try{
+   const r=await fetch(feedUrl,{headers:{Accept:'application/atom+xml, application/xml, text/xml, */*'},signal:AbortSignal.timeout(12000)});
+   if(!r.ok)throw new Error('HTTP '+r.status);
+   const xml=await r.text();
+   const blocks=[...xml.matchAll(/<entry\\b[\\s\\S]*?<\\/entry>/gi)].map(m=>m[0]);
+   const events=blocks.map((b,i)=>{
+     const g=geometry(b);
+     const title=field(b,'title')||field(b,'event')||'Aviso meteorológico';
+     const area=field(b,'areaDesc')||field(b,'area')||field(b,'featureName')||field(b,'featurename')||'';
+     const time=field(b,'updated')||field(b,'published')||field(b,'effective')||null;
+     const detail=field(b,'summary')||field(b,'description')||field(b,'content')||'';
+     const link=b.match(/<link\\b[^>]*\\bhref=["']([^"']+)["']/i)?.[1]||feedUrl;
+     const severity=field(b,'severity')||field(b,'awareness_level')||'';
+     return {id:'europe-'+Buffer.from(title+'|'+area+'|'+time+'|'+i).toString('base64url').slice(0,40),name:title,type:'weather',lat:g.lat,lon:g.lon,area,time,severity,source:"METEOALARM-EU",scope:"europe",kind:'official',url:decode(link),detail:clean(detail).slice(0,900)};
+   }).filter(e=>e.name);
+   res.setHeader('Cache-Control','s-maxage=90, stale-while-revalidate=300');
+   return res.status(200).json({source:"METEOALARM-EU",generated:Date.now(),count:events.length,events});
+ }catch(e){
+   res.setHeader('Cache-Control','no-store');
+   return res.status(502).json({source:"METEOALARM-EU",error:String(e.message||e),events:[]});
+ }
 }
