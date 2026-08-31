@@ -1,25 +1,44 @@
-// BRM Spain alert adapter: resilient public-feed integration.
+// BRM SPAIN alert adapter — official MeteoAlarm Atom feed.
 export default async function handler(req,res){
- const feeds=[
-  {name:'METEOALARM-ES',url:'https://feeds.meteoalarm.org/feeds/meteoalarm-legacy-atom-spain'}
- ];
- const clean=v=>(v||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
- const tag=(b,n)=>clean(b.match(new RegExp('<(?:(?:[\\w.-]+):)?'+n+'\\b[^>]*>([\\s\\S]*?)<\\/(?:(?:[\\w.-]+):)?'+n+'>','i'))?.[1]);
- const coords=b=>{
-  const point=b.match(/<(?:(?:[\w.-]+):)?(?:point|pos)\b[^>]*>([^<]+)</i)?.[1];
-  const box=b.match(/<(?:(?:[\w.-]+):)?box\b[^>]*>([^<]+)</i)?.[1];
-  const polygon=b.match(/<(?:(?:[\w.-]+):)?polygon\b[^>]*>([^<]+)</i)?.[1];
-  const nums=(point||box||polygon||'').trim().split(/\s+/).map(Number).filter(Number.isFinite);
-  if(nums.length===2)return{lat:nums[0],lon:nums[1]};
-  if(box&&nums.length>=4)return{lat:(nums[0]+nums[2])/2,lon:(nums[1]+nums[3])/2};
-  if(polygon&&nums.length>=4){let pairs=[];for(let i=0;i+1<nums.length;i+=2)pairs.push([nums[i],nums[i+1]]);return{lat:pairs.reduce((a,p)=>a+p[0],0)/pairs.length,lon:pairs.reduce((a,p)=>a+p[1],0)/pairs.length}}
-  return{lat:null,lon:null};
+ const feedUrl="https://feeds.meteoalarm.org/feeds/meteoalarm-legacy-atom-spain";
+ const clean=v=>decode(String(v||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim());
+ const decode=s=>s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&');
+ const field=(block,name)=>{
+   const re=new RegExp('<(?:[\\w.-]+:)?'+name+'\\b[^>]*>([\\s\\S]*?)<\\/(?:[\\w.-]+:)?'+name+'>','i');
+   return clean(block.match(re)?.[1]);
  };
- let xml='',source='',usedUrl='';
- for(const f of feeds){try{const r=await fetch(f.url,{headers:{Accept:'application/atom+xml,application/xml,text/xml'},signal:AbortSignal.timeout(9000)});if(!r.ok)continue;const t=await r.text();if(/<entry\b/i.test(t)){xml=t;source=f.name;usedUrl=f.url;break}}catch{}}
- if(!xml){res.setHeader('Cache-Control','s-maxage=30');return res.status(502).json({source:'SPAIN-ALERTS',error:'Spain public alert feed temporarily unavailable',events:[]})}
- const blocks=[...xml.matchAll(/<entry\b[\s\S]*?<\/entry>/gi)].map(x=>x[0]);
- const events=blocks.map((b,i)=>{const c=coords(b),title=tag(b,'title')||tag(b,'event')||'Aviso meteorológico';const area=tag(b,'areaDesc')||tag(b,'featurename')||tag(b,'area')||'';const time=tag(b,'updated')||tag(b,'published')||null;const detail=tag(b,'summary')||tag(b,'description')||tag(b,'content')||'';const url=b.match(/<link\b[^>]*href=["']([^"']+)/i)?.[1]||usedUrl;return{id:'spain-'+Buffer.from(title+'|'+area+'|'+time+'|'+i).toString('base64').replace(/[^a-z0-9]/gi,'').slice(0,28),name:title,type:'weather',lat:c.lat,lon:c.lon,area,time,source,scope:'spain',kind:'official',url,detail:clean(detail).slice(0,700)}}).filter(e=>e.name);
- res.setHeader('Cache-Control','s-maxage=120, stale-while-revalidate=300');
- res.status(200).json({source,generated:Date.now(),count:events.length,events});
+ const geometry=block=>{
+   const read=names=>{
+     for(const n of names){const v=block.match(new RegExp('<(?:[\\w.-]+:)?'+n+'\\b[^>]*>([^<]+)<\\/(?:[\\w.-]+:)?'+n+'>','i'))?.[1];if(v)return decode(v).trim()}
+     return '';
+   };
+   const pairs=read(['point','pos']).trim().split(/\s+/).map(Number).filter(Number.isFinite);
+   if(pairs.length>=2)return{lat:pairs[0],lon:pairs[1]};
+   const box=read(['box']).split(/\s+/).map(Number).filter(Number.isFinite);
+   if(box.length>=4)return{lat:(box[0]+box[2])/2,lon:(box[1]+box[3])/2};
+   const poly=read(['polygon']).split(/\s+/).map(Number).filter(Number.isFinite);
+   if(poly.length>=4){let lat=0,lon=0,n=0;for(let i=0;i+1<poly.length;i+=2){lat+=poly[i];lon+=poly[i+1];n++}return n?{lat:lat/n,lon:lon/n}:{lat:null,lon:null}}
+   return{lat:null,lon:null};
+ };
+ try{
+   const r=await fetch(feedUrl,{headers:{Accept:'application/atom+xml, application/xml, text/xml, */*'},signal:AbortSignal.timeout(12000)});
+   if(!r.ok)throw new Error('HTTP '+r.status);
+   const xml=await r.text();
+   const blocks=[...xml.matchAll(/<entry\\b[\\s\\S]*?<\\/entry>/gi)].map(m=>m[0]);
+   const events=blocks.map((b,i)=>{
+     const g=geometry(b);
+     const title=field(b,'title')||field(b,'event')||'Aviso meteorológico';
+     const area=field(b,'areaDesc')||field(b,'area')||field(b,'featureName')||field(b,'featurename')||'';
+     const time=field(b,'updated')||field(b,'published')||field(b,'effective')||null;
+     const detail=field(b,'summary')||field(b,'description')||field(b,'content')||'';
+     const link=b.match(/<link\\b[^>]*\\bhref=["']([^"']+)["']/i)?.[1]||feedUrl;
+     const severity=field(b,'severity')||field(b,'awareness_level')||'';
+     return {id:'spain-'+Buffer.from(title+'|'+area+'|'+time+'|'+i).toString('base64url').slice(0,40),name:title,type:'weather',lat:g.lat,lon:g.lon,area,time,severity,source:"METEOALARM-ES",scope:"spain",kind:'official',url:decode(link),detail:clean(detail).slice(0,900)};
+   }).filter(e=>e.name);
+   res.setHeader('Cache-Control','s-maxage=90, stale-while-revalidate=300');
+   return res.status(200).json({source:"METEOALARM-ES",generated:Date.now(),count:events.length,events});
+ }catch(e){
+   res.setHeader('Cache-Control','no-store');
+   return res.status(502).json({source:"METEOALARM-ES",error:String(e.message||e),events:[]});
+ }
 }
