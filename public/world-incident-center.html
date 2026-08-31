@@ -48,7 +48,7 @@ async function load(){
  ];
  const results=await Promise.allSettled(sources.map((x)=>getJSON(x[1],x[2])));
  events.length=0;let ok=[],fail=[];
- results.forEach((r,i)=>{if(r.status==='fulfilled'){events.push(...r.value);ok.push(sources[i][0]+': '+r.value.length)}else fail.push(sources[i][0])});
+ results.forEach((r,i)=>{if(r.status==='fulfilled'){events.push(...r.value);ok.push(sources[i][0]+': '+r.value.length)}else fail.push(sources[i][0]+' ('+String(r.reason?.message||'error').slice(0,45)+')')});
  document.getElementById('status').innerHTML='<span style="color:#10b981">● '+ok.join(' · ')+'</span>'+ (fail.length?' <span style="color:#ef4444">| ⚠ '+fail.join(', ')+' no disponible</span>':'');
  render(false);
 }
@@ -61,7 +61,11 @@ function renderContext(){
  const box=document.getElementById('context-result');if(!selectedEvent){box.textContent='Selecciona una incidencia del listado o del mapa.';return}
  const base=CONTEXT_PROFILES[selectedEvent.type]||CONTEXT_PROFILES.other;
  const keys=contextMode==='all'?Object.keys(CONTEXT_META):base;
- box.innerHTML='<b>'+escapeHtml(selectedEvent.name||'INCIDENCIA')+'</b><br><small>'+escapeHtml(selectedEvent.type||'other')+(selectedEvent.area?' · '+escapeHtml(selectedEvent.area):'')+'</small><div>'+keys.map(k=>'<span class="context-chip">'+CONTEXT_META[k][0]+'</span>').join('')+'</div><div style="margin-top:8px">'+keys.map(k=>'<a class="context-source" target="_blank" rel="noopener noreferrer" href="'+CONTEXT_META[k][2]+'">'+CONTEXT_META[k][1]+' ↗</a>').join('')+'</div>';
+ const generic=keys.map(k=>({label:CONTEXT_META[k][0],name:CONTEXT_META[k][1],url:CONTEXT_META[k][2]}));
+ const territorial=contextMode==='all'?territorySources.map(x=>({label:'📍 '+x.scope,name:x.name,url:x.url})):registryRefs(selectedEvent).map(x=>({label:x[0],name:x[1],url:x[2]}));
+ const own={label:'🔎 Evento',name:selectedEvent.source||'Fuente original',url:selectedEvent.url||sourceUrl(selectedEvent.source)};
+ const refs=[own,...territorial,...generic].filter(x=>x&&x.url).filter((x,i,a)=>a.findIndex(y=>y.url===x.url)===i);
+ box.innerHTML='<b>'+escapeHtml(selectedEvent.name||'INCIDENCIA')+'</b><br><small>'+escapeHtml(selectedEvent.type||'other')+(selectedEvent.area?' · '+escapeHtml(selectedEvent.area):'')+'</small><div>'+refs.map(x=>'<span class="context-chip">'+escapeHtml(x.label)+'</span>').join('')+'</div><div style="margin-top:8px">'+refs.map(x=>'<a class="context-source" target="_blank" rel="noopener noreferrer" href="'+x.url+'">'+escapeHtml(x.name)+' ↗</a>').join('')+'</div>';
 }
 document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{document.querySelectorAll('.mode').forEach(x=>x.classList.remove('active'));b.classList.add('active');contextMode=b.dataset.mode;renderContext()});
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
