@@ -1,127 +1,121 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="BRM World Incident Center — incidencias públicas, España y contexto territorial."><title>BRM · WORLD INCIDENT CENTER</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><style>*{box-sizing:border-box}body{margin:0;background:#090909;color:#eee;font-family:'JetBrains Mono',monospace}header{padding:18px 24px;border-bottom:1px solid #292929;background:#0e0e12;display:flex;justify-content:space-between;align-items:center;gap:20px}.brand{font:42px 'Bebas Neue';letter-spacing:3px;color:#f5c518}.sub{font:11px 'Barlow Condensed';letter-spacing:2px;color:#888}nav a{color:#f5c518;text-decoration:none;font-size:10px;margin-left:14px}.layout{display:grid;grid-template-columns:340px 1fr;min-height:calc(100vh - 86px)}aside{padding:20px;border-right:1px solid #292929;background:#0d0d11;overflow:auto}h2{font:28px 'Bebas Neue';letter-spacing:1px;margin:0 0 14px;color:#f5c518}.notice{font:11px/1.5 'Barlow Condensed';color:#aaa;background:#15151a;border-left:3px solid #f5c518;padding:12px;margin-bottom:18px}.filters{display:grid;grid-template-columns:1fr 1fr;gap:7px}.location-panel{margin:12px 0;padding:10px;border:1px solid #29293a;background:#101016}.location-panel label{display:block;color:#888;font-size:8px;margin-bottom:6px}.location-row{display:flex;gap:6px}.location-row input{min-width:0;flex:1;background:#09090d;border:1px solid #333;color:#ddd;padding:8px;font:9px 'JetBrains Mono'}.locbtn{background:#15151a;border:1px solid #555;color:#f5c518;padding:7px;cursor:pointer;font:700 8px 'Barlow Condensed'}.filter{padding:10px 8px;border:1px solid #29293a;background:#111117;color:#bbb;cursor:pointer;text-align:left;font:700 9px 'Barlow Condensed'}.filter.active,.filter:hover{border-color:#f5c518;color:#f5c518}.event{padding:12px 0;border-bottom:1px solid #222;cursor:pointer}.event b{font:18px 'Barlow Condensed';display:block}.event small{color:#777;font-size:8px;line-height:1.5}.source{display:inline-block;font-size:7px;padding:2px 5px;margin-top:6px;border:1px solid #555}.source.official{color:#ef4444;border-color:#7a2929}.source.live{color:#10b981;border-color:#12664d}.source.external{color:#57d5ff;border-color:#27657a}.source.approx{color:#f5c518;border-color:#806800}.status{margin:14px 0;color:#777;font-size:8px}.empty{padding:18px;border:1px dashed #333;color:#777;font-size:9px}.official{margin-top:24px}.official a{display:block;color:#aaa;text-decoration:none;font-size:9px;padding:7px 0;border-bottom:1px solid #202025}.official a:hover{color:#f5c518}#map{height:calc(100vh - 86px);min-height:620px}.map-toolbar{position:absolute;z-index:900;top:16px;left:16px;display:flex;flex-wrap:wrap;gap:6px;max-width:520px}.map-view{background:#101016eF;border:1px solid #555;color:#ddd;padding:9px 12px;cursor:pointer;font:700 9px 'Barlow Condensed';letter-spacing:.6px}.map-view:hover,.map-view.active{border-color:#f5c518;color:#f5c518;background:#181818}.map-status{position:absolute;z-index:900;top:62px;left:16px;background:#0c0c0ddd;border-left:3px solid #f5c518;padding:7px 10px;color:#aaa;font-size:8px;max-width:360px}.legend{position:absolute;z-index:500;right:18px;bottom:20px;background:#0c0c0dd9;border:1px solid #333;padding:12px;font-size:8px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}.context{margin-top:16px;border:1px solid #292929;background:#101016;padding:14px;color:#999;font:10px/1.5 'Barlow Condensed'}.context b{color:#f5c518}.context-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}.mode{padding:8px 5px;border:1px solid #333;background:#0b0b10;color:#999;cursor:pointer;font:700 8px 'Barlow Condensed'}.mode.active,.mode:hover{border-color:#f5c518;color:#f5c518}.context-result{border-top:1px solid #292929;margin-top:10px;padding-top:9px;font-size:9px}.context-chip{display:inline-block;margin:4px 4px 0 0;padding:5px 7px;border:1px solid #333;color:#bbb;font-size:8px}.context-source{display:block;color:#aaa;text-decoration:none;padding:5px 0;border-bottom:1px solid #222;font-size:8px}@media(max-width:800px){.layout{grid-template-columns:1fr}aside{max-height:52vh;border-right:0;border-bottom:1px solid #292929;padding:15px}.filters{grid-template-columns:repeat(2,1fr)}#map{height:48vh;min-height:400px}header{align-items:flex-start;flex-direction:column;padding:15px 18px}.brand{font-size:34px}nav a{margin:0 10px 0 0}.legend{right:8px;bottom:8px;font-size:7px}}
-</style></head><body><header><div><div class="brand">BRM · WORLD INCIDENT CENTER</div><div class="sub">OBSERVACIÓN · ESPAÑA + EUROPA · CONTEXTO · FUENTES TRAZABLES</div></div><nav><a href="#map">INCIDENT CENTER</a><a href="/espana.html">CENTRO ESPAÑA</a></nav></header><div class="layout"><aside><h2>INCIDENTES</h2><div class="notice"><b>PRINCIPIO BRM</b><br>El mapa muestra datos recibidos de fuentes identificables. España se trata como una capa propia; los elementos sin coordenadas exactas se muestran solo cuando podemos situarlos de forma prudente y quedan marcados como aproximados.</div><div class="filters"><button class="filter active" data-view="all">TODOS</button><button class="filter" data-view="spain">🇪🇸 ESPAÑA</button><button class="filter" data-view="europe">🇪🇺 EUROPA</button><button class="filter" data-view="earthquake">TERREMOTOS</button><button class="filter" data-view="fire">INCENDIOS</button><button class="filter" data-view="flood">INUNDACIONES</button><button class="filter" data-view="storm">TORMENTAS</button><button class="filter" data-view="weather">AVISOS ES</button><button class="filter" data-view="volcano">VOLCANES</button></div><div class="location-panel"><label>📍 MI ZONA · usa ubicación actual o busca una localidad</label><div class="location-row"><input id="place-search" placeholder="Ej. Tarragona, Valencia, Sevilla"><button id="locate" class="locbtn">MI UBICACIÓN</button></div><div id="location-status" class="status"></div></div><div id="status" class="status">Cargando fuentes…</div><div id="events"></div><div class="context"><b>CONTEXTO DE INCIDENTE</b><br>Selecciona un evento: BRM propone capas útiles, no afirma medios desplegados sin fuente verificable.<div class="context-modes"><button class="mode active" data-mode="relevant">◉ RELEVANTE</button><button class="mode" data-mode="select">◎ ELEGIR</button><button class="mode" data-mode="all">◉ TODO</button></div><div id="context-result" class="context-result">Selecciona una incidencia del listado o del mapa.</div></div><div class="official"><h2>FUENTES</h2><a href="https://www.gdacs.org/" target="_blank" rel="noopener">GDACS · Global Disaster Alert</a><a href="https://earthquake.usgs.gov/earthquakes/feed/" target="_blank" rel="noopener">USGS · terremotos</a><a href="https://feeds.meteoalarm.org/feeds/meteoalarm-legacy-atom-spain" target="_blank" rel="noopener">MeteoAlarm · España</a><a href="https://forest-fire.emergency.copernicus.eu/" target="_blank" rel="noopener">EFFIS / Copernicus</a><a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener">NASA FIRMS</a><a href="https://www.aemet.es/" target="_blank" rel="noopener noreferrer">AEMET</a><a href="https://www.meteoalarm.org/" target="_blank" rel="noopener noreferrer">MeteoAlarm · Europa</a><a href="https://emergency.copernicus.eu/" target="_blank" rel="noopener noreferrer">Copernicus EMS · Europa</a></div></aside><section style="position:relative"><div id="map"></div><div class="map-toolbar" id="map-toolbar"><button class="map-view active" data-map-view="all">🌍 MUNDO</button><button class="map-view" data-map-view="europe">🇪🇺 EUROPA</button><button class="map-view" data-map-view="spain">🇪🇸 ESPAÑA</button><button class="map-view" data-map-view="events">◎ EVENTOS</button><button class="map-view" data-map-view="reset">↺ REINICIAR</button></div><div class="map-status" id="map-status">Vista global · cargando fuentes…</div><div class="legend"><div><span class="dot" style="background:#ef4444"></span>Coordenada exacta</div><div><span class="dot" style="background:#f97316"></span>Centro calculado del área</div><div><span class="dot" style="background:#f5c518"></span>Ubicación aproximada</div><div><span class="dot" style="background:#10b981"></span>Fuente local</div></div></section></div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
-const map=L.map('map',{worldCopyJump:true}).setView([40.2,-3.7],5);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors'}).addTo(map);const events=[];const layers=[];let selected='all',selectedEvent=null,contextMode='relevant',userLocation=null,locationRadiusKm=150,territorySources=[];
-// Relevance is semantic, not a dump of every available source.
-const CONTEXT_PROFILES={
- fire:['weather','civil','satellite','roads'],
- flood:['weather','river','civil','roads','rail'],
- earthquake:['geophysics','civil','infrastructure'],
- storm:['weather','civil','roads','aviation'],
- weather:['weather','civil'],
- volcano:['geophysics','civil','aviation','satellite'],
- other:['civil']
-};
-const CONTEXT_META={
- weather:['🌦 Meteorología','AEMET','https://www.aemet.es/es/eltiempo/prediccion/avisos'],
- roads:['🛣 Carreteras','DGT','https://www.dgt.es/'],
- rail:['🚆 Ferrocarril','ADIF','https://www.adif.es/'],
- aviation:['✈️ Aviación','ENAIRE','https://www.enaire.es/'],
- civil:['🚨 Emergencias','Protección Civil','https://www.proteccioncivil.es/'],
- satellite:['🛰 Observación satelital','Copernicus EMS','https://emergency.copernicus.eu/'],
- river:['🌊 Riesgo de inundación','Copernicus EFAS','https://www.copernicus.eu/en/access-data/copernicus-services-catalogue/european-flood-awareness-system'],
- infrastructure:['⚡ Infraestructura','Red Eléctrica','https://www.ree.es/'],
- geophysics:['🌋 Geofísica','IGN','https://www.ign.es/web/ign/portal'],
- health:['🩺 Salud','Ministerio de Sanidad','https://www.sanidad.gob.es/']
-};
-function contextKeys(e){
- const text=String([e.name,e.area,e.detail,e.event].filter(Boolean).join(' ')).toLowerCase();
- if(e.type==='weather' && /calor|temperatura alta|temperaturas altas|heat/.test(text)) return ['weather','health','civil'];
- if(e.type==='weather' && /fr[ií]o|helada|nieve/.test(text)) return ['weather','roads','civil'];
- if(e.type==='weather' && /viento|racha/.test(text)) return ['weather','civil','roads','aviation'];
- if(e.type==='weather' && /lluvia|precipit|torment/.test(text)) return ['weather','civil','roads'];
- return CONTEXT_PROFILES[e.type]||CONTEXT_PROFILES.other;
-}
-const spainCenters={madrid:[40.4168,-3.7038],andalucia:[37.3833,-5.9833],aragon:[41.6488,-0.8891],asturias:[43.3619,-5.8494],cantabria:[43.4623,-3.80998],castillaleon:[41.6523,-4.7245],castillalamancha:[39.8628,-4.0273],cataluna:[41.5912,1.5209],catalunya:[41.5912,1.5209],valenciana:[39.4699,-0.3763],extremadura:[38.8794,-6.9707],galicia:[42.5751,-8.1339],baleares:[39.5696,2.6502],canarias:[28.2916,-16.6291],rioja:[42.2871,-2.5396],navarra:[42.8125,-1.6458],paisvasco:[43.0,-2.5],murcia:[37.9922,-1.1307],ceuta:[35.8894,-5.3213],melilla:[35.2923,-2.9381],barcelona:[41.3874,2.1686],tarragona:[41.1189,1.2445],reus:[41.1549,1.1087],girona:[41.9794,2.8214],lleida:[41.6176,0.6200],valencia:[39.4699,-0.3763],alicante:[38.3452,-0.4810],castellon:[39.9864,-0.0513],malaga:[36.7213,-4.4214],sevilla:[37.3891,-5.9845],cadiz:[36.5271,-6.2886],granada:[37.1773,-3.5986],zaragoza:[41.6488,-0.8891],bilbao:[43.2630,-2.9350],santander:[43.4623,-3.80998],oviedo:[43.3619,-5.8494],coruna:[43.3623,-8.4115],vigo:[42.2406,-8.7207],pamplona:[42.8125,-1.6458],valladolid:[41.6523,-4.7245],toledo:[39.8628,-4.0273],badajoz:[38.8794,-6.9707],cordoba:[37.8882,-4.7794],cordobesa:[37.8882,-4.7794],campina:[37.55,-4.75],merida:[38.9161,-6.3437],logrono:[42.4627,-2.4449],palma:[39.5696,2.6502],tenerife:[28.4636,-16.2518],laspalmas:[28.1235,-15.4363]};
-const normalizeText=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
-function fallbackCoord(text=''){const s=normalizeText(text);const keys=Object.keys(spainCenters).sort((a,b)=>b.length-a.length);for(const k of keys)if(s.includes(k))return spainCenters[k];return null}
-function validLatLon(lat,lon){return Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180}
-const MAP_VIEWS={spain:{center:[40.0,-3.7],zoom:6},europe:{center:[54,12],zoom:4},all:{center:[22,0],zoom:2}};
-function applyView(selection,pts=[]){map.invalidateSize();if(MAP_VIEWS[selection]){const v=MAP_VIEWS[selection];map.flyTo(v.center,v.zoom,{animate:true,duration:.7});return}if(pts.length){const target=L.latLngBounds(pts);if(target.isValid())map.fitBounds(target,{padding:[32,32],animate:true,maxZoom:11})}}
-function normalize(raw,forcedSource){return (raw||[]).map(e=>{
- const source=forcedSource||e.source||'UNKNOWN';
- let lat=Number(e.lat),lon=Number(e.lon),precision=e.locationPrecision||(e.approx?'approx':'exact');
- if(!validLatLon(lat,lon)){
-   const p=fallbackCoord([e.area,e.name,e.detail].filter(Boolean).join(' '));
-   if(!p)return null;[lat,lon]=p;precision='approx';
- }
- const text=[e.area,e.name,e.detail].join(' ');
- const t=(e.type||'').toLowerCase();
- const type=t.includes('fire')||t.includes('incendi')?'fire':t.includes('flood')||t.includes('inund')?'flood':t.includes('storm')||t.includes('torment')?'storm':t.includes('volcan')?'volcano':t.includes('earthquake')||t.includes('terrem')||source==='USGS'?'earthquake':t.includes('weather')||source.startsWith('METEOALARM')?'weather':t||'other';
- const isSpain=source==='METEOALARM-ES'||e.scope==='spain'||/españa|spain|catal|tarragona|madrid|valencia|andaluc|cordoba|cordobes|campina|galicia|aragon|murcia|navarra|vasc|canaria|balear|asturia|cantab|rioja|extrem|castilla|ceuta|melilla/i.test(text);
- const isEurope=source==='METEOALARM-EU'||e.scope==='europe'||isSpain||/france|italy|italia|portugal|germany|alemania|greece|grecia|belgium|netherlands|poland|austria|sweden|norway|finland|ireland|croatia|romania|bulgaria|slovenia|slovakia|czech|hungary|denmark/i.test(text);
- const approx=precision!=='exact'; return {...e,lat,lon,precision,approx,source,kind:e.kind||'official',isSpain,isEurope,type};
-}).filter(Boolean)}
-async function getJSON(url,source){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error(source+' HTTP '+r.status);const j=await r.json();return normalize(j.events||j.data||[],source||j.source)}
-async function loadRegistry(){territorySources=[]}
-async function loadRegistryForEvent(e){const t=[e.area,e.name,e.detail].filter(Boolean).join(' ').toLowerCase();const municipality=t.includes('tarragona')?'tarragona':'';const region=(municipality||t.includes('catal'))?'catalunya':'';try{const q=new URLSearchParams();if(region)q.set('region',region);if(municipality)q.set('municipality',municipality);const r=await fetch('/api/source-registry.js?'+q.toString(),{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json();territorySources=j.sources||[]}catch{territorySources=[]}}
-async function load(){
- const sources=[
-  ['USGS','/api/usgs-earthquakes.js','USGS'],
-  ['GDACS','/api/gdacs-events.js','GDACS'],
-  ['ESPAÑA','/api/spain-alerts.js',null],
-  ['EUROPA','/api/europe-alerts.js','METEOALARM-EU']
- ];
- const results=await Promise.allSettled(sources.map((x)=>getJSON(x[1],x[2])));
- events.length=0;let ok=[],fail=[];
- results.forEach((r,i)=>{if(r.status==='fulfilled'){events.push(...r.value);ok.push(sources[i][0]+': '+r.value.length)}else fail.push(sources[i][0]+' ('+String(r.reason?.message||'error').slice(0,45)+')')});
- document.getElementById('status').innerHTML='<span style="color:#10b981">● '+ok.join(' · ')+'</span>'+ (fail.length?' <span style="color:#ef4444">| ⚠ '+fail.join(', ')+' no disponible</span>':'');
- render(false);setMapStatus('Fuentes cargadas · '+events.length+' eventos disponibles');
-}
-function setMapStatus(label){const el=document.getElementById('map-status');if(el)el.textContent=label}
-function setMapView(view){document.querySelectorAll('.map-view').forEach(b=>b.classList.toggle('active',b.dataset.mapView===view));if(view==='events'){const pts=layers.map(x=>x.getLatLng());if(pts.length){map.fitBounds(L.latLngBounds(pts),{padding:[40,40],maxZoom:7,animate:true});setMapStatus('Eventos visibles · '+pts.length+' puntos')}return}if(view==='reset'){selected='all';document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active',b.dataset.view==='all'));view='all'}selected=view;document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('active',b.dataset.view===selected));render(true);setMapStatus(view==='spain'?'España · vista territorial':view==='europe'?'Europa · vista continental':'Mundo · vista global')}
-function render(reposition=true){layers.splice(0).forEach(x=>map.removeLayer(x));const box=document.getElementById('events');box.innerHTML='';let shown=0;events.filter(e=>{const typeMatch=selected==='all'||(selected==='spain'&&e.isSpain)||(selected==='europe'&&e.isEurope)||(selected!=='all'&&selected!=='spain'&&selected!=='europe'&&selected!=='local'&&e.type===selected);if(!typeMatch)return false;if(selected==='local'&&userLocation)return distanceKm(userLocation.lat,userLocation.lon,e.lat,e.lon)<=locationRadiusKm;return true}).forEach(e=>{shown++;const color=e.precision==='approx'?'#f5c518':e.precision==='area'?'#f97316':e.kind==='ping'?'#10b981':'#ef4444';const m=L.circleMarker([e.lat,e.lon],{radius:8,color,fillColor:color,fillOpacity:.8,weight:2}).addTo(map);const detail=e.detail||e.event||e.name||'Incidencia';const refs=contextRefs(e);m.bindPopup(`<b>${escapeHtml(e.name||'Incidencia')}</b><br>${escapeHtml(detail).slice(0,500)}<br><small>Fuente del evento: ${escapeHtml(e.source)}${e.precision==='approx'?' · ubicación aproximada':e.precision==='area'?' · centro calculado del área':''}</small><div style="margin-top:8px;border-top:1px solid #333;padding-top:6px"><small><b>FUENTES RELACIONADAS</b></small><br>${refs.map(x=>`<a href="${x[2]}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin:4px 4px 0 0;color:#f5c518;font-size:9px">${x[0]}</a>`).join('')}</div>`);layers.push(m);const row=document.createElement('div');row.className='event';row.innerHTML=`<b>${escapeHtml(e.name||'Incidencia')}</b><small>${escapeHtml((e.area||e.event||e.type||'').toString()).slice(0,100)}</small><br><span class="source ${e.approx?'approx':e.kind==='ping'?'live':'official'}">${e.precision==='approx'?'APROX. ':e.precision==='area'?'ÁREA ':''}${escapeHtml(e.source)}</span>`;row.onclick=()=>selectIncident(e,m);m.on('click',()=>selectIncident(e,m));box.appendChild(row)});if(!shown)box.innerHTML='<div class="empty">No hay eventos para este filtro con coordenadas utilizables.</div>'; else {const pts=layers.map(x=>x.getLatLng());if(reposition){const target=viewFor(selected,pts);applyView(selected,pts);}}}
-function registryTopicMatch(source,e){
- const type=String(source.type||'').toLowerCase();
- const keys=contextKeys(e);
- const map={
-  weather:/meteorolog|aviso/,
-  roads:/carretera|tr[aá]nsito/,
-  rail:/ferrocarril/,
-  aviation:/aviaci[oó]n/,
-  civil:/emergencia|protecci[oó]n civil/,
-  satellite:/sat[eé]lite|cartograf/,
-  river:/inundaci[oó]n|agua/,
-  infrastructure:/energ[ií]a|infraestructura/,
-  geophysics:/geof[ií]sica|sism|volc[aá]n/,
-  health:/sanidad|salud/
- };
- return keys.some(k=>map[k]?.test(type));
-}
-function registryRefs(e){
- return territorySources
-  .filter(x=>x&&x.url&&registryTopicMatch(x,e))
-  .filter((x,i,a)=>a.findIndex(y=>y.id===x.id)===i)
-  .slice(0,6)
-  .map(x=>['📍 '+x.name,x.name,x.url]);
-}
-function contextRefs(e){
- const keys=contextKeys(e);
- const own=[['🔎 '+String(e.source||'FUENTE'),'Fuente del evento',e.url||sourceUrl(e.source)]];
- // Popup must never inherit territorial sources from a previously selected incident.
- return [...own,...keys.map(k=>CONTEXT_META[k])]
-  .filter(x=>x&&x[2]).filter((x,i,a)=>a.findIndex(y=>y[2]===x[2])===i);
-}
-document.querySelectorAll('.map-view').forEach(b=>b.onclick=()=>setMapView(b.dataset.mapView));
-function sourceUrl(source){const s=String(source||'').toUpperCase();if(s==='USGS')return'https://earthquake.usgs.gov/earthquakes/feed/';if(s==='GDACS')return'https://www.gdacs.org/';if(s==='METEOALARM-ES'||s==='METEOALARM-EU')return'https://www.meteoalarm.org/';return'https://brm.worldmos.es/'}
-async function selectIncident(e,m){selectedEvent=e;map.flyTo([e.lat,e.lon],e.precision==='approx'?7:e.precision==='area'?8:10,{duration:.6});if(m)m.openPopup();await loadRegistryForEvent(e);renderContext()}
-function renderContext(){
- const box=document.getElementById('context-result');if(!selectedEvent){box.textContent='Selecciona una incidencia del listado o del mapa.';return}
- const base=contextKeys(selectedEvent);
- const keys=contextMode==='all'?Object.keys(CONTEXT_META):base;
- const generic=keys.map(k=>({label:CONTEXT_META[k][0],name:CONTEXT_META[k][1],url:CONTEXT_META[k][2]}));
- const territorial=contextMode==='all'
-   ? territorySources.map(x=>({label:'📍 '+x.scope,name:x.name,url:x.url}))
-   : registryRefs(selectedEvent).map(x=>({label:x[0],name:x[1],url:x[2]}));
- const own={label:'🔎 Evento',name:selectedEvent.source||'Fuente original',url:selectedEvent.url||sourceUrl(selectedEvent.source)};
- const refs=[own,...territorial,...generic].filter(x=>x&&x.url).filter((x,i,a)=>a.findIndex(y=>y.url===x.url)===i);
- box.innerHTML='<b>'+escapeHtml(selectedEvent.name||'INCIDENCIA')+'</b><br><small>'+escapeHtml(selectedEvent.type||'other')+(selectedEvent.area?' · '+escapeHtml(selectedEvent.area):'')+'</small><div>'+refs.map(x=>'<span class="context-chip">'+escapeHtml(x.label)+'</span>').join('')+'</div><div style="margin-top:8px">'+refs.map(x=>'<a class="context-source" target="_blank" rel="noopener noreferrer" href="'+x.url+'">'+escapeHtml(x.name)+' ↗</a>').join('')+'</div>';
-}
-document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{document.querySelectorAll('.mode').forEach(x=>x.classList.remove('active'));b.classList.add('active');contextMode=b.dataset.mode;renderContext()});
-function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function distanceKm(a,b,c,d){const R=6371,rad=x=>x*Math.PI/180;const x=rad(c-a),y=rad(d-b);const q=Math.sin(x/2)**2+Math.cos(rad(a))*Math.cos(rad(c))*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(q))}
-async function setLocation(lat,lon,label){userLocation={lat,lon,label};map.setView([lat,lon],8);document.getElementById('location-status').textContent='Zona activa: '+label+' · radio '+locationRadiusKm+' km';let btn=[...document.querySelectorAll('.filter')].find(x=>x.dataset.view==='local');if(!btn){btn=document.createElement('button');btn.className='filter';btn.dataset.view='local';btn.textContent='📍 MI ZONA';document.querySelector('.filters').prepend(btn);btn.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));btn.classList.add('active');selected='local';render(true)}}btn.click()}
-document.getElementById('locate').onclick=()=>{if(!navigator.geolocation){document.getElementById('location-status').textContent='Tu navegador no permite geolocalización.';return}document.getElementById('location-status').textContent='Solicitando ubicación…';navigator.geolocation.getCurrentPosition(p=>setLocation(p.coords.latitude,p.coords.longitude,'Ubicación actual'),()=>document.getElementById('location-status').textContent='No se pudo obtener ubicación. Puedes buscar una localidad.',{enableHighAccuracy:false,timeout:8000,maximumAge:300000})};
-document.getElementById('place-search').addEventListener('keydown',async ev=>{if(ev.key!=='Enter')return;const q=ev.target.value.trim();if(!q)return;document.getElementById('location-status').textContent='Buscando localidad…';try{const r=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent(q),{headers:{Accept:'application/json'}});const j=await r.json();if(!j[0])throw new Error('not found');setLocation(Number(j[0].lat),Number(j[0].lon),j[0].display_name.split(',').slice(0,2).join(','))}catch(e){document.getElementById('location-status').textContent='No se encontró la localidad.'}});
-L.control.zoom({position:'bottomright'}).addTo(map);map.whenReady(()=>{map.invalidateSize();setTimeout(()=>map.invalidateSize(),250)});window.addEventListener('resize',()=>map.invalidateSize());
-document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');selected=b.dataset.view;render(true)});load();setInterval(load,180000);
-</script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#08111f">
+  <title>Bubatronik Emergencias</title>
+  <style>
+    :root{color-scheme:dark;--bg:#08111f;--bg-elevated:#0f1b2e;--panel:#101d30;--line:#223550;--text:#e9f1ff;--text-muted:#9eb1cd;--cyan:#57d5ff;--cyan-dim:#57d5ff33;--green:#5ee6a8;--green-dim:#5ee6a81f;--amber:#ffd166;--amber-dim:#ffd1661f;--orange:#ff9f45;--red:#ff6b7a;--red-bright:#ff3b30;--font-sans:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;--radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:18px;--radius-full:9999px;--shadow-sm:0 2px 8px rgba(0,0,0,0.25);--shadow-md:0 6px 20px rgba(0,0,0,0.35);--shadow-lg:0 12px 35px rgba(0,0,0,0.45);--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--space-10:40px;--space-12:48px;--ease-out:cubic-bezier(0.215,0.61,0.355,1);--duration-fast:120ms;--duration-normal:240ms}
+    *{box-sizing:border-box;margin:0;padding:0}body{margin:0;background:radial-gradient(circle at 20% 0,#15375a 0,#08111f 42%);color:var(--text);font:16px var(--font-sans);padding:24px;line-height:1.5}main{max-width:1100px;margin:auto}.eyebrow{color:var(--cyan);letter-spacing:.12em;text-transform:uppercase;font-size:12px}h1{font-size:clamp(28px,5vw,54px);margin:8px 0}.lead{color:var(--text-muted);max-width:680px;margin-bottom:24px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:24px}.card{background:rgba(16,29,48,.88);border:1px solid var(--line);border-radius:var(--radius-xl);padding:20px;box-shadow:var(--shadow-md)}.card h2{font-size:17px;margin:0 0 14px;color:var(--cyan)}.metric{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:10px 0}.metric:last-child{border:0}.muted{color:var(--text-muted)}.pill{border-radius:var(--radius-full);padding:4px 10px;font-size:12px;font-weight:700}.active{color:var(--green);background:var(--green-dim)}.watch{color:var(--amber);background:var(--amber-dim)}.event{display:flex;gap:15px;padding:13px 0;border-bottom:1px solid var(--line)}.event:last-child{border:0}.time{color:var(--text-muted);min-width:95px;font-size:13px}.event strong{display:block;margin-bottom:4px}.tag{color:var(--bg);background:var(--cyan);border-radius:5px;padding:2px 6px;font-size:11px;font-weight:800}footer{color:var(--text-muted);font-size:12px;text-align:center;margin:28px 0 8px}.section{margin-top:40px}.section h2{font-size:22px;margin-bottom:12px;color:var(--cyan)}.section p{color:var(--text-muted);max-width:720px}.code{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-md);padding:16px;overflow:auto;font:13px var(--font-mono);color:var(--text)}ul.check{list-style:none;margin-top:12px}ul.check li{padding:6px 0;border-bottom:1px dashed var(--line)}ul.check li:last-child{border:0}a{color:var(--cyan)}.tabs{display:flex;gap:8px;margin-bottom:16px}.tab{background:var(--panel);border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:var(--radius-md);cursor:pointer;font-weight:600}.tab.active{background:var(--cyan);color:var(--bg)}.tab-content{display:none}.tab-content.active{display:block}.preview-frame{width:100%;height:600px;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--bg-elevated)}
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Bubatronik · Emergencias</div>
+  <h1>Alarma + señal + PING</h1>
+  <p class="lead">Una vista común para que WorldMOS, T&O, Fluviaria y futuros proyectos compartan eventos claros, trazables y preparados para integración.</p>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="dashboard">Dashboard</button>
+    <button class="tab" data-tab="lovable">Lovable</button>
+    <button class="tab" data-tab="incident">World Incident Center</button>
+  </div>
+
+  <div id="dashboard" class="tab-content active">
+    <section class="grid">
+      <article class="card">
+        <h2>Estado operativo</h2>
+        <div class="metric"><span class="muted">Eventos activos</span><strong>3</strong></div>
+        <div class="metric"><span class="muted">PINGs hoy</span><strong>12</strong></div>
+        <div class="metric"><span class="muted">Última recepción</span><strong>18:32</strong></div>
+      </article>
+      <article class="card">
+        <h2>Proyectos</h2>
+        <div class="metric"><span><a href="https://brm.worldmos.es" target="_blank" rel="noopener">Emergencias</a></span><span class="pill active">Activo</span></div>
+        <div class="metric"><span><a href="https://brm.worldmos.world" target="_blank" rel="noopener">BRM World</a></span><span class="pill active">Enlace</span></div>
+        <div class="metric"><span><a href="https://brm.worldmos.info" target="_blank" rel="noopener">BRM Info</a></span><span class="pill watch">Enlace</span></div>
+      </article>
+      <article class="card" style="grid-column:1/-1">
+        <h2>Ú¡ltimos eventos</h2>
+        <div class="event">
+          <div class="time">24 ago · 18:32</div>
+          <div><strong>Lluvia en Sant Salvador <span class="tag">PING</span></strong><span class="muted">Nivel 2 · 18,5 mm/h · Meteocat · activo</span></div>
+        </div>
+        <div class="event">
+          <div class="time">24 ago · 17:45</div>
+          <div><strong>Tormenta en Camp de Tarragona <span class="tag">PING</span></strong><span class="muted">Nivel 3 · evento de demostración</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>brm.worldmos.es — Despliegue rápido</h2>
+      <p>Este archivo ya incluye todo el diseño necesario. Para ponerlo en producción:</p>
+      <ul class="check">
+        <li>1) Sube este repo a GitHub (ya está en <code>DEVBU93/bubatronik-emergencias</code>).</li>
+        <li>2) Despliega en Vercel apuntando a <code>public/index.html</code> como página principal.</li>
+        <li>3) Configura el dominio <code>brm.worldmos.es</code> en Vercel y en GoDaddy (ver <code>docs/DEPLOYMENT.md</code>).</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Integración con API</h2>
+      <p>Para conectar con el endpoint de emergencias:</p>
+      <div class="code">POST https://bubatronik-emergencias.vercel.app/api/emergency-event
+Content-Type: application/json
+
+{
+  "event_id": "evt-demo-001",
+  "occurred_at": "2026-08-24T16:32:00Z",
+  "project": "emergencias",
+  "location": { "zone_name": "Sant Salvador", "lat": 41.045, "lon": 1.21 },
+  "phenomenon": "lluvia",
+  "severity": 2,
+  "intensity_mm_h": 18.5,
+  "source": { "name": "Meteocat", "event_id": "meteo-20260824-1832" },
+  "message": "Lluvia detectada en Sant Salvador.",
+  "status": "active"
+}</div>
+    </section>
+  </div>
+
+  <div id="incident" class="tab-content">
+    <section class="section">
+      <h2>World Incident Center</h2>
+      <p class="muted">Mapa operativo integrado: Mundo · Europa · España · eventos trazables y contexto de fuentes relacionadas.</p>
+      <iframe class="preview-frame" style="height:820px" src="/world-incident-center.html" title="BRM World Incident Center"></iframe>
+      <p class="muted" style="margin-top:10px">La vista avanzada se mantiene como módulo independiente para evitar volver a mezclar la portada general con la lógica crítica del mapa.</p>
+    </section>
+  </div>
+
+  <div id="lovable" class="tab-content">
+    <section class="section">
+      <h2>Vista de Lovable</h2>
+      <p class="muted">Preview embebido de la web creada en Lovable para brm.worldmos.es</p>
+      <iframe class="preview-frame" src="https://ping-tarragona-ready.lovable.app" title="Lovable preview"></iframe>
+    </section>
+  </div>
+
+  <footer>Demo visual · No sustituye avisos oficiales de emergencias · brm.worldmos.es</footer>
+</main>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const contents = {
+    dashboard: document.getElementById('dashboard'),
+    lovable: document.getElementById('lovable'),
+    incident: document.getElementById('incident')
+  };
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      Object.values(contents).forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      const target = tab.dataset.tab;
+      contents[target].classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
