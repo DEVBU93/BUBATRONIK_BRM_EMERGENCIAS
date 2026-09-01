@@ -14,12 +14,16 @@
 <main>
   <div class="eyebrow">Bubatronik · Emergencias</div>
   <h1>Alarma + señal + PING</h1>
-  <p class="lead">Una vista común para que WorldMOS, T&O, Fluviaria y futuros proyectos compartan eventos claros, trazables y preparados para integración.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px">
+  <a href="/world-incident-center.html" style="text-decoration:none;border:1px solid var(--cyan);color:var(--cyan);padding:9px 13px;border-radius:8px;font-weight:700">🌍 WORLD INCIDENT CENTER</a>
+  <a href="/espana.html" style="text-decoration:none;border:1px solid var(--line);color:var(--text);padding:9px 13px;border-radius:8px">🇪🇸 CENTRO ESPAÑA</a>
+  <a href="/ayuda.html" style="text-decoration:none;border:1px solid var(--line);color:var(--text);padding:9px 13px;border-radius:8px">🆘 AYUDA</a>
+</div>
+<p class="lead">Una vista común para que WorldMOS, T&O, Fluviaria y futuros proyectos compartan eventos claros, trazables y preparados para integración.</p>
 
   <div class="tabs">
     <button class="tab active" data-tab="dashboard">Dashboard</button>
     <button class="tab" data-tab="lovable">Lovable</button>
-    <button class="tab" data-tab="incident">World Incident Center</button>
   </div>
 
   <div id="dashboard" class="tab-content active">
@@ -80,15 +84,6 @@ Content-Type: application/json
     </section>
   </div>
 
-  <div id="incident" class="tab-content">
-    <section class="section">
-      <h2>World Incident Center</h2>
-      <p class="muted">Mapa operativo integrado: Mundo · Europa · España · eventos trazables y contexto de fuentes relacionadas.</p>
-      <iframe class="preview-frame" style="height:820px" src="/world-incident-center.html" title="BRM World Incident Center"></iframe>
-      <p class="muted" style="margin-top:10px">La vista avanzada se mantiene como módulo independiente para evitar volver a mezclar la portada general con la lógica crítica del mapa.</p>
-    </section>
-  </div>
-
   <div id="lovable" class="tab-content">
     <section class="section">
       <h2>Vista de Lovable</h2>
@@ -104,8 +99,7 @@ Content-Type: application/json
   const tabs = document.querySelectorAll('.tab');
   const contents = {
     dashboard: document.getElementById('dashboard'),
-    lovable: document.getElementById('lovable'),
-    incident: document.getElementById('incident')
+    lovable: document.getElementById('lovable')
   };
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
