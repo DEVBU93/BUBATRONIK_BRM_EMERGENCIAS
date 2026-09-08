@@ -1,4 +1,7 @@
 const LIST_URL='https://rapidmapping.emergency.copernicus.eu/backend/dashboard-api/public-activations-info/?limit=100';
+const MAX_CONTEXT_AGE_DAYS=120;
+function parseTime(v){const t=Date.parse(v||'');return Number.isFinite(t)?t:null}
+function isRecentOrOpen(x){if(!x.closed)return true;const t=parseTime(x.activationTime||x.eventTime||x.closedTime);return t!==null&&(Date.now()-t)<=MAX_CONTEXT_AGE_DAYS*86400000}
 
 function point(wkt){
   const m=String(wkt||'').match(/POINT\s*\(\s*([-\d.]+)\s+([-\d.]+)\s*\)/i);
@@ -17,16 +20,19 @@ function typeOf(category){
 
 export default async function handler(req,res){
   try{
-    const r=await fetch(LIST_URL,{headers:{Accept:'application/json','User-Agent':'BRM-Emergencias/1.0'}});
+    const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),10000);
+    const r=await fetch(LIST_URL,{headers:{Accept:'application/json','User-Agent':'BRM-Emergencias/1.0'},signal:controller.signal}).finally(()=>clearTimeout(timer));
     if(!r.ok) throw new Error('CEMS HTTP '+r.status);
     const payload=await r.json();
-    const events=(payload.results||[]).map(x=>{
+    const raw=(payload.results||[]);
+    const events=raw.filter(isRecentOrOpen).map(x=>{
       const p=point(x.centroid); if(!p) return null;
       const countries=(x.countries||[]).map(c=>typeof c==='string'?c:(c.short_name||c.name||'')).filter(Boolean);
       return {
         id:'cems-'+x.code, activationCode:x.code, name:x.name||('Copernicus EMS '+x.code),
         type:typeOf(x.category), category:x.category||'Emergency',
         lat:p.lat, lon:p.lon, countries,
+        scope:countries.some(c=>/spain|españa/i.test(c))?'spain':countries.some(c=>/france|italy|portugal|germany|greece|belgium|netherlands|poland|austria|sweden|norway|finland|ireland|croatia|romania|bulgaria|slovenia|slovakia|czech|hungary|denmark/i.test(c))?'europe':'world',
         source:'COPERNICUS EMS', kind:'context', precision:'area',
         eventTime:x.eventTime||null, activationTime:x.activationTime||null,
         closed:Boolean(x.closed), products:Number(x.n_products||0), aois:Number(x.n_aois||0),
@@ -35,7 +41,7 @@ export default async function handler(req,res){
       };
     }).filter(Boolean);
     res.setHeader('Cache-Control','s-maxage=900, stale-while-revalidate=3600');
-    res.status(200).json({source:'COPERNICUS EMS',generated:Date.now(),count:events.length,events});
+    res.status(200).json({source:'COPERNICUS EMS',generated:Date.now(),count:events.length,rawCount:raw.length,events});
   }catch(error){
     res.setHeader('Cache-Control','s-maxage=60');
     res.status(502).json({source:'COPERNICUS EMS',error:'Live source temporarily unavailable',events:[]});
