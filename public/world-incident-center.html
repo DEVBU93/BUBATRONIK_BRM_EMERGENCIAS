@@ -69,7 +69,7 @@ function mergeCemsContext(cems){
   let added=0,merged=0;
   cems.forEach(c=>{
     const same=events.filter(e=>e.source!=='COPERNICUS EMS'&&e.type===c.type)
-      .map(e=>({e,d:eventDistanceKm(e,c)}).filter(x=>x.d<=150).sort((a,b)=>a.d-b.d)[0];
+      .map(e=>({e,d:eventDistanceKm(e,c)})).filter(x=>x.d<=150).sort((a,b)=>a.d-b.d)[0];
     if(same){
       same.e.cems=[...(same.e.cems||[]),{code:c.activationCode,url:c.url,name:c.name,products:c.products}];
       merged++;
