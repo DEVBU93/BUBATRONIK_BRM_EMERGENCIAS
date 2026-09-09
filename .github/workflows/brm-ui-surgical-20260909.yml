@@ -1,0 +1,56 @@
+name: BRM surgical UI cleanup
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/brm-ui-surgical-20260909.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply exact UI replacements
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('public/index.html')
+          s=p.read_text(encoding='utf-8')
+          reps=[
+            ('.ping-nav{display:none!important}', '.ping-nav{display:inline-flex!important}'),
+            ('href="#ping">📍 PING · INFO &amp; ACCIONES</a>', 'href="/ayuda.html">🆘 AYUDA · INFO &amp; ACCIONES</a>'),
+            ('Eventos visibles', 'Registros agregados'),
+            ('Con contexto España', 'Registros España (subconjunto)'),
+            ('<h3>FUENTES CONECTADAS</h3>', '<h3>REGISTROS POR FUENTE</h3>'),
+            ("u.length+' OK'", "u.length+' REG'"),
+            ("g.length+' OK'", "g.length+' REG'"),
+            ("es.length+' OK'", "es.length+' REG'"),
+            ("eu.length+' OK'", "eu.length+' REG'"),
+            ("view==='world'&&!e.europe", "view==='world'"),
+          ]
+          for old,new in reps:
+            n=s.count(old)
+            if n<1: raise SystemExit(f'Missing exact target: {old!r}')
+            s=s.replace(old,new)
+          old='</article><article class="card ops-card"><h3>FRESCURA</h3>'
+          new='</article><div class="map-note" style="margin-top:10px">TOTAL MAPA = USGS + GDACS + METEO ES + METEO EU · CEMS no suma al total: aporta contexto.</div></article><article class="card ops-card"><h3>FRESCURA</h3>'
+          if s.count(old)!=1: raise SystemExit('Expected one source-card boundary for CEMS note')
+          s=s.replace(old,new,1)
+          marker='</body>'
+          if s.count(marker)!=1: raise SystemExit('Expected one body close')
+          toggle='''<button class="brm-theme-toggle" id="brmThemeToggle" type="button" aria-label="Cambiar tema"></button><script>(()=>{const b=document.body,k="brm-theme",saved=localStorage.getItem(k);if(saved==="light")b.classList.add("brm-light");if(saved==="dark")b.classList.add("brm-dark");const btn=document.getElementById("brmThemeToggle"),sync=()=>{const light=b.classList.contains("brm-light");btn.textContent=light?"☾ OSCURO":"☀ CLARO";btn.setAttribute("aria-pressed",light?"true":"false")};btn.onclick=()=>{const light=!b.classList.contains("brm-light");b.classList.toggle("brm-light",light);b.classList.toggle("brm-dark",!light);localStorage.setItem(k,light?"light":"dark");sync()};sync()})();</script>'''
+          s=s.replace(marker,toggle+marker,1)
+          p.write_text(s,encoding='utf-8')
+          print('Surgical replacements applied:',len(reps)+2)
+      - name: Validate and commit
+        run: |
+          git diff --check
+          git diff -- public/index.html | sed -n '1,120p'
+          git config user.name 'BRM Surgical Bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/brm-ui-surgical-20260909.yml
+          git add public/index.html
+          git diff --cached --check
+          git commit -m 'fix: clarify BRM map views, sources and theme toggle'
+          git push
