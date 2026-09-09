@@ -25,6 +25,10 @@ BRM amplía su observación desde el Camp de Tarragona hacia Catalunya, España 
    - GDACS
    - NASA FIRMS
    - otras fuentes de observación con feed reutilizable
+5. **Derechos y ciudadanía digital**
+   - Carta de Derechos Digitales
+   - AEPD
+   - Derechos de usuarios de telecomunicaciones
 
 ## Regla de frescura
 
@@ -37,8 +41,9 @@ Cada integración debe conservar, cuando esté disponible:
 - `severity`
 - `location`
 - `official_url`
+- `expires` / vigencia cuando la fuente la publique
 
-La antigüedad del dato se muestra como contexto. Una fuente lenta no se descarta automáticamente.
+La antigüedad del dato se muestra como contexto. Una fuente lenta no se descarta automáticamente, pero una alerta expirada no debe presentarse como vigente.
 
 ## Alertas a población
 
@@ -47,6 +52,8 @@ BRM no genera ni sustituye ES-Alert. ES-Alert es un sistema oficial de Protecci�
 ## Portal añadido
 
 `public/espana.html` funciona como centro rápido de búsqueda de fuentes oficiales españolas y territoriales, con prioridad visual para Camp de Tarragona y Catalunya.
+
+`public/derechos-digitales.html` amplía el centro con una puerta específica para privacidad, datos personales, telecomunicaciones y ciudadanía digital, utilizando fuentes oficiales como AEPD y el Ministerio competente.
 
 ## Próximas integraciones técnicas
 
