@@ -15,7 +15,7 @@
       "headers": [
         {
           "key": "Link",
-          "value": "</brm-theme.css>; rel=stylesheet"
+          "value": "</brm-theme.css>; rel=stylesheet, </brm-theme-auto.css>; rel=stylesheet"
         }
       ]
     },
