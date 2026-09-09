@@ -11,6 +11,15 @@
   ],
   "headers": [
     {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</brm-theme.css>; rel=stylesheet"
+        }
+      ]
+    },
+    {
       "source": "/index.html",
       "headers": [
         {
