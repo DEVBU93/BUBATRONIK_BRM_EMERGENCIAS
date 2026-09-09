@@ -1,0 +1,44 @@
+name: BRM surgical normalizer fix
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/brm-surgical-normalizer-fix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Apply exact semantic normalizer patch
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('public/index.html')
+          text = path.read_text(encoding='utf-8')
+          old = "let t=String(e.type||e.event||'').toLowerCase();if(source==='USGS')t='earthquake';else if(source.startsWith('METEOALARM'))t='weather';else if(/fire|incendi/.test(t))t='fire';else if(/flood|inund/.test(t))t='flood';else if(/storm|torment/.test(t))t='storm';else if(/volcan/.test(t))t='volcano';"
+          new = "let t=String(e.type||e.event||'').toLowerCase();if(source==='USGS')t='earthquake';else if(/fire|incendi|wildfire|forest.?fire/.test(t))t='fire';else if(/flood|inund|rain|lluvia|precipit|crecida/.test(t))t='flood';else if(/storm|torment|thunder|convect|lightning|rayo/.test(t))t='storm';else if(/volcan/.test(t))t='volcano';else if(source.startsWith('METEOALARM'))t='weather';"
+
+          count = text.count(old)
+          if count != 1:
+              raise SystemExit(f'Expected exactly one target normalizer, found {count}')
+
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          print('Applied one exact semantic-normalizer replacement to public/index.html')
+
+      - name: Commit surgical patch and remove temporary workflow
+        run: |
+          git config user.name "BRM Surgical Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/brm-surgical-normalizer-fix.yml
+          git add public/index.html
+          git diff --cached --check
+          git commit -m "fix: preserve semantic incident filters in main map"
+          git push
